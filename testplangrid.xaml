@@ -1,0 +1,855 @@
+<local:TestPlanGrid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:local="clr-namespace:Keysight.OpenTap.Gui"
+                    xmlns:controls="clr-namespace:Keysight.OpenTap.Wpf;assembly=Keysight.OpenTap.Wpf"
+                    xmlns:managers="clr-namespace:Keysight.Ccl.Wsl.UI.Managers;assembly=Keysight.Ccl.Wsl"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:mgr="clr-namespace:Keysight.Ccl.Wsl.UI.Managers;assembly=Keysight.Ccl.Wsl"
+                    Name="x"
+                    AllowDrop="{Binding FilterMode, ElementName=x, Converter={controls:InvertBooleanConverter}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/DefaultStyle.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      <sys:Double x:Key="PathOpacity">0.85</sys:Double>
+      <sys:Double x:Key="PathThickness">1</sys:Double>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <UIElement.CommandBindings>
+    <CommandBinding Command="local:TestPlanGrid.ExpandAll"/>
+    <CommandBinding Command="local:TestPlanGrid.CollapseAll"/>
+    <CommandBinding Command="local:TestPlanGrid.Copy"/>
+    <CommandBinding Command="local:TestPlanGrid.SelectAll"/>
+    <CommandBinding Command="local:TestPlanGrid.SelectTop"/>
+    <CommandBinding Command="local:TestPlanGrid.SelectBottom"/>
+    <CommandBinding Command="local:TestPlanGrid.SelectAllAbove"/>
+    <CommandBinding Command="local:TestPlanGrid.SelectAllBelow"/>
+    <CommandBinding Command="local:TestPlanGrid.ShowStepHelp"/>
+    <CommandBinding Command="local:TestPlanGrid.ToggleTestStep"/>
+    <CommandBinding Command="local:TestPlanGrid.ToggleAllTestSteps"/>
+    <CommandBinding Command="local:TestPlanGrid.FilterModeToggle"/>
+  </UIElement.CommandBindings>
+  <Grid>
+    <Canvas Name="y" Background="Transparent" IsHitTestVisible="False" ClipToBounds="True" ZIndex="10">
+      <Canvas Name="z" Visibility="Collapsed">
+        <Canvas Name="aa">
+          <Path Data="M -3,2 L 0,7 4000,7 " Stroke="{DynamicResource Tap.Highlight}" StrokeThickness="2"/>
+        </Canvas>
+        <Canvas Name="ab" ClipToBounds="False">
+          <Path Data="M -7.5,-2.5 L 4000,-2.5 " Stroke="{DynamicResource Tap.Highlight}" StrokeThickness="2"/>
+        </Canvas>
+      </Canvas>
+      <Border Name="ac" Background="{DynamicResource Tap.Highlight}" Width="2" Height="0"
+              Visibility="{Binding Visibility, ElementName=ab}"/>
+      <TextBlock Name="ad" IsHitTestVisible="False" Visibility="Collapsed" Style="{DynamicResource DefaultLabel}"
+                 FontWeight="Normal" VerticalAlignment="Center" Margin="8,0,0,0"
+                 Text="{Binding ElementName=x, Path=DraggedStep.Name}"/>
+    </Canvas>
+    <Grid Row="0" ZIndex="0" IsHitTestVisible="False"/>
+    <Grid ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right"
+          Background="{DynamicResource DataGrid.ColumnHeader.Static.Background}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Control Grid.Row="1" Margin="0,-10,0,0" HorizontalAlignment="Right">
+        <Control.Template>
+          <ControlTemplate>
+            <StackPanel Name="filterSettingsPanel" Orientation="Horizontal">
+              <Control Name="ClearFilterToggle" ToolTip="Clear filter settings." Opacity="0.7">
+                <Control.Template>
+                  <ControlTemplate TargetType="{x:Type Control}">
+                    <ToggleButton Name="AllFilterCheckBox" Padding="0" BorderThickness="0">
+                      <FrameworkElement.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                          <Setter Property="Control.Background" Value="Transparent"/>
+                          <Setter Property="Control.Foreground" Value="{DynamicResource Control.Static.Foreground}"/>
+                          <Setter Property="FrameworkElement.Tag" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+                          <Setter Property="Control.Template">
+                            <Setter.Value>
+                              <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                <Border Name="border" BorderThickness="{TemplateBinding Control.BorderThickness}"
+                                        BorderBrush="{TemplateBinding Control.BorderBrush}" Padding="{TemplateBinding Control.Padding}"
+                                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                                  <StackPanel Orientation="Horizontal">
+                                    <ContentPresenter Name="content" IsEnabled="False" Content="{TemplateBinding ContentControl.Content}"
+                                                      VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                                  </StackPanel>
+                                </Border>
+                              </ControlTemplate>
+                            </Setter.Value>
+                          </Setter>
+                          <Style.Triggers>
+                            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                              <Setter Property="Control.Background" Value="{DynamicResource Control.MouseOver.Background.MediumDark}"/>
+                              <Setter Property="Control.Foreground" Value="{DynamicResource Control.Static.Foreground}"/>
+                            </Trigger>
+                          </Style.Triggers>
+                        </Style>
+                      </FrameworkElement.Style>
+                      <Rectangle Width="20" Height="30">
+                        <Shape.Fill>
+                          <DrawingBrush Stretch="None">
+                            <DrawingBrush.Drawing>
+                              <DrawingGroup>
+                                <GeometryDrawing>
+                                  <GeometryDrawing.Pen>
+                                    <Pen Thickness="1.5" StartLineCap="Round" EndLineCap="Round"
+                                         Brush="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"/>
+                                  </GeometryDrawing.Pen>
+                                  <GeometryDrawing.Geometry>
+                                    <GeometryGroup>
+                                      <Geometry.Transform>
+                                        <ScaleTransform CenterX="1.5" CenterY="1.5" ScaleX="3.5" ScaleY="5"/>
+                                      </Geometry.Transform>
+                                      <PathGeometry Figures="M 1,2, 1,1, 0,0, 3,0, 2,1, 2,2"/>
+                                      <PathGeometry Figures="M 2.5,1 3.5,2 M 2.5,2 3.5,1"/>
+                                    </GeometryGroup>
+                                  </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                              </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                          </DrawingBrush>
+                        </Shape.Fill>
+                      </Rectangle>
+                    </ToggleButton>
+                  </ControlTemplate>
+                </Control.Template>
+              </Control>
+              <TextBlock Name="CountText" MinWidth="29" FontSize="13" Margin="2,0,2,0" VerticalAlignment="Center">
+                <TextBlock DataContext="{Binding ElementName=x}" Text="{Binding Items.Count, ElementName=ah}">
+                  <FrameworkElement.ToolTip>
+                    <TextBlock>
+                      Showing
+                      <TextBlock Text="{Binding VisibleStepCount}"/>
+                      out of
+                      <TextBlock Text="{Binding TotalStepCount}"/>
+                      test steps.
+                    </TextBlock>
+                  </FrameworkElement.ToolTip>
+                </TextBlock>
+              </TextBlock>
+            </StackPanel>
+            <ControlTemplate.Triggers>
+              <DataTrigger Value="False" Binding="{Binding FilterSettingsChanged, ElementName=x}">
+                <Setter TargetName="ClearFilterToggle" Property="UIElement.Visibility" Value="Hidden"/>
+              </DataTrigger>
+              <DataTrigger Value="True" Binding="{Binding FilterSettingsChanged, ElementName=x}">
+                <Setter TargetName="CountText" Value="{DynamicResource Tap.Highlight}" Property="TextBlock.Foreground"/>
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding FilterMode, ElementName=x}">
+                <Setter TargetName="filterSettingsPanel" Property="UIElement.Visibility" Value="Collapsed"/>
+              </DataTrigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Control.Template>
+      </Control>
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Height="37">
+        <Menu>
+          <MenuItem Name="ae" Header="|||" StaysOpenOnClick="True" ToolTip="Select which columns are visible.">
+            <FrameworkElement.Resources>
+              <Separator x:Key="addBlock" Height="2" Opacity="0.5"/>
+              <Style x:Key="ExtraColumnStyle" TargetType="{x:Type MenuItem}"
+                     BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Setter Property="HeaderedItemsControl.Header" Value="{Binding Name}"/>
+                <Setter Property="MenuItem.IsCheckable" Value="True"/>
+                <Setter Property="MenuItem.IsChecked" Value="{Binding IsSelected}"/>
+                <Setter Property="MenuItem.StaysOpenOnClick" Value="True"/>
+              </Style>
+              <Style x:Key="ColumnVisibilityStyle" TargetType="{x:Type MenuItem}"
+                     BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Setter Property="HeaderedItemsControl.Header" Value="{Binding Name}"/>
+                <Setter Property="MenuItem.IsCheckable" Value="True"/>
+                <Setter Property="MenuItem.IsChecked" Value="{Binding IsVisible}"/>
+                <Setter Property="MenuItem.StaysOpenOnClick" Value="True"/>
+                <Style.Triggers>
+                  <Trigger Property="HeaderedItemsControl.Header" Value="">
+                    <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+              <Style x:Key="DefaultStyle" TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Setter Property="MenuItem.StaysOpenOnClick" Value="True"/>
+              </Style>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <MultiBinding Converter="{controls:CombinedListsConverter}">
+                <Binding Path="ColumnVisibility" ElementName="x"/>
+                <Binding Path="." Source="{StaticResource addBlock}"/>
+                <Binding Path="ExtraColumns" ElementName="x"/>
+              </MultiBinding>
+            </ItemsControl.ItemsSource>
+          </MenuItem>
+        </Menu>
+        <ToggleButton Name="af" BorderThickness="0"
+                      ToolTip="Column filter mode: Filter visible test steps by column values. (Ctrl+Shift+L)"
+                      Command="local:TestPlanGrid.FilterModeToggle" Padding="2,1"
+                      IsChecked="{Binding FilterMode, ElementName=x, Mode=OneWay}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ToggleButton}">
+              <Setter Property="Control.Background" Value="Transparent"/>
+              <Setter Property="Control.Foreground" Value="{DynamicResource Control.Disabled.Foreground}"/>
+              <Setter Property="FrameworkElement.Tag" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Name="border" BorderThickness="{TemplateBinding Control.BorderThickness}"
+                            BorderBrush="{TemplateBinding Control.BorderBrush}" Padding="{TemplateBinding Control.Padding}"
+                            Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                      <StackPanel Orientation="Horizontal">
+                        <ContentPresenter Name="content" IsEnabled="False" Content="{TemplateBinding ContentControl.Content}"
+                                          VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                      </StackPanel>
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                  <Setter Property="Control.Background" Value="{DynamicResource Control.MouseOver.Background.MediumDark}"/>
+                  <Setter Property="Control.Foreground" Value="{DynamicResource Control.Static.Foreground}"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                  <Setter Property="FrameworkElement.Tag" Value="{DynamicResource Tap.Highlight}"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Rectangle Width="15" Height="30">
+            <Shape.Fill>
+              <DrawingBrush Stretch="None">
+                <DrawingBrush.Drawing>
+                  <DrawingGroup>
+                    <GeometryDrawing>
+                      <GeometryDrawing.Pen>
+                        <Pen Thickness="1.5" StartLineCap="Round" EndLineCap="Round"
+                             Brush="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"/>
+                      </GeometryDrawing.Pen>
+                      <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                          <PathGeometry Figures="M 1,2, 1,1, 0,0, 3,0, 2,1, 2,2">
+                            <Geometry.Transform>
+                              <ScaleTransform CenterX="1.5" CenterY="1.5" ScaleX="4" ScaleY="6"/>
+                            </Geometry.Transform>
+                          </PathGeometry>
+                        </GeometryGroup>
+                      </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                  </DrawingGroup>
+                </DrawingBrush.Drawing>
+              </DrawingBrush>
+            </Shape.Fill>
+          </Rectangle>
+        </ToggleButton>
+        <ToggleButton Name="ag" BorderThickness="0" ToolTip="Scroll the currently running step into view."
+                      HorizontalAlignment="Right" Padding="2,1" IsChecked="{Binding ScrollToPlaying, ElementName=x}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ToggleButton}">
+              <Setter Property="Control.Background" Value="Transparent"/>
+              <Setter Property="Control.Foreground" Value="{DynamicResource Control.Disabled.Foreground}"/>
+              <Setter Property="FrameworkElement.Tag" Value="{Binding Foreground, RelativeSource={RelativeSource Self}}"/>
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Name="border" BorderThickness="{TemplateBinding Control.BorderThickness}"
+                            BorderBrush="{TemplateBinding Control.BorderBrush}" Padding="{TemplateBinding Control.Padding}"
+                            Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                      <StackPanel Orientation="Horizontal">
+                        <ContentPresenter Name="content" IsEnabled="False" Content="{TemplateBinding ContentControl.Content}"
+                                          VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                      </StackPanel>
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                  <Setter Property="Control.Background" Value="{DynamicResource Control.MouseOver.Background.MediumDark}"/>
+                  <Setter Property="Control.Foreground" Value="{DynamicResource Control.Static.Foreground}"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                  <Setter Property="FrameworkElement.Tag" Value="{DynamicResource Tap.Highlight}"/>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Rectangle Width="13" Height="20">
+            <Shape.Fill>
+              <DrawingBrush Stretch="Uniform">
+                <DrawingBrush.Drawing>
+                  <DrawingGroup>
+                    <GeometryDrawing Brush="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                      <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="-5,-2.75,6,1.5"/>
+                      </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                      <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                          <RectangleGeometry Rect="-2.75,-9,1.5,3"/>
+                          <RectangleGeometry Rect="-2.75,2,1.5,3"/>
+                          <PathGeometry Figures="M -4.75,-6 l 5.5,0 ,-2.75,3 z "/>
+                          <PathGeometry Figures="M -4.75,2 l 5.5,0 ,-2.75,-3 z "/>
+                        </GeometryGroup>
+                      </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                  </DrawingGroup>
+                </DrawingBrush.Drawing>
+              </DrawingBrush>
+            </Shape.Fill>
+          </Rectangle>
+        </ToggleButton>
+      </StackPanel>
+    </Grid>
+    <DataGrid Name="ah" Grid.Row="0" Panel.ZIndex="1" CanUserDeleteRows="False" CanUserAddRows="False"
+              CanUserReorderColumns="True" CanUserResizeColumns="True" CanUserResizeRows="False"
+              CanUserSortColumns="False" GridLinesVisibility="None"
+              VirtualizingPanel.VirtualizationMode="Standard" EnableRowVirtualization="True"
+              SelectionMode="Extended" SelectionUnit="FullRow" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+              ScrollViewer.CanContentScroll="True" RowDetailsVisibilityMode="Collapsed"
+              RowHeight="{DynamicResource Tap.DataGrid.RowHeight.Small}" VirtualizingPanel.CacheLength="2,2"
+              VirtualizingPanel.CacheLengthUnit="Item" AutomationProperties.AutomationId="TestPlanList"
+              AlternationCount="2" Grid.IsSharedSizeScope="True" IsReadOnly="{Binding ReadOnly, ElementName=x}"
+              AllowDrop="{Binding AllowDrop, ElementName=x}"
+              HeadersVisibility="{Binding TestPlan.ChildTestSteps.Count, ElementName=x, Converter={local:TestPlanCountToHeadersVisibility}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+          <Setter Property="DataGrid.ColumnHeaderHeight" Value="40"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding FilterMode, RelativeSource={RelativeSource AncestorType=local:TestPlanGrid}}"
+                         Value="True">
+              <Setter Property="DataGrid.ColumnHeaderHeight" Value="65"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <UIElement.CommandBindings>
+        <CommandBinding Command="local:TestPlanGrid.ExpandAll"/>
+        <CommandBinding Command="local:TestPlanGrid.CollapseAll"/>
+        <CommandBinding Command="local:MainWindow.RemoveStep"/>
+        <CommandBinding Command="local:TestPlanGrid.ToggleBreakpoint"/>
+        <CommandBinding Command="local:TestPlanGrid.SelectBottom"/>
+        <CommandBinding Command="local:TestPlanGrid.SelectTop"/>
+        <CommandBinding Command="local:TestPlanGrid.SelectAllAbove"/>
+        <CommandBinding Command="local:TestPlanGrid.SelectAllBelow"/>
+        <CommandBinding Command="local:TestPlanGrid.JumpTo"/>
+        <CommandBinding Command="local:TestPlanGrid.ShowStepHelp"/>
+      </UIElement.CommandBindings>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu AutomationProperties.AutomationId="TestPlanContextMenu">
+          <MenuItem Command="local:MainWindow.AddStep" AutomationProperties.AutomationId="TestPlanContextMenuAddStep"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:MainWindow.AddPlan"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:MainWindow.RemoveStep"
+                    AutomationProperties.AutomationId="TestPlanContextMenuRemoveStep"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <Separator/>
+          <MenuItem Command="local:TestPlanGrid.Copy" AutomationProperties.AutomationId="TestPlanContextMenuCopy"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:TestPlanGrid.Paste" AutomationProperties.AutomationId="TestPlanContextMenuPaste"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:MainWindow.Undo" AutomationProperties.AutomationId="TestPlanContextMenuUndo"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:MainWindow.Redo" AutomationProperties.AutomationId="TestPlanContextMenuRedo"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <Separator/>
+          <MenuItem Command="local:TestPlanGrid.ExpandAll"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:TestPlanGrid.CollapseAll"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:TestPlanGrid.SelectAll"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:TestPlanGrid.ToggleAllTestSteps"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+          <MenuItem Command="local:TestPlanGrid.FilterModeToggle"
+                    CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+      <FrameworkElement.Resources>
+        <Thickness x:Key="Button.Padding">1,0</Thickness>
+        <SolidColorBrush x:Key="DataGrid.ColumnHeader.MouseOver.Background">Transparent</SolidColorBrush>
+        <ContextMenu x:Key="DataGridColumnHeaderContextMenu" DataContext="null"
+                     ItemsSource="{Binding ColumnVisibility, RelativeSource={RelativeSource AncestorType=local:TestPlanGrid}}">
+          <ItemsControl.ItemContainerStyle>
+            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+              <Setter Property="HeaderedItemsControl.Header" Value="{Binding Name}"/>
+              <Setter Property="MenuItem.IsCheckable" Value="True"/>
+              <Setter Property="MenuItem.IsChecked" Value="{Binding IsVisible, Mode=OneTime}"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Name}" Value="">
+                  <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </ContextMenu>
+        <Style TargetType="{x:Type DataGridColumnHeadersPresenter}"
+               BasedOn="{StaticResource {x:Type DataGridColumnHeadersPresenter}}">
+          <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource DataGridColumnHeaderContextMenu}"/>
+          <Setter Property="Control.Background" Value="Transparent"/>
+          <Setter Property="FrameworkElement.Margin" Value="0,0,0,0"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+          <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
+          <Setter Property="UIElement.Focusable" Value="False"/>
+          <Setter Property="Control.IsTabStop" Value="False"/>
+        </Style>
+      </FrameworkElement.Resources>
+      <DataGrid.ColumnHeaderStyle>
+        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+          <Setter Property="ContentControl.ContentTemplate">
+            <Setter.Value>
+              <DataTemplate>
+                <StackPanel HorizontalAlignment="Stretch">
+                  <FrameworkElement.Resources>
+                    <DataTemplate DataType="{x:Type DataGridTemplateColumn}">
+                      <controls:ControlDropDown Visibility="Hidden" Margin="0,6,0,0"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:PropertyColumn}">
+                      <controls:ControlDropDown Name="dropdown" ToolTip="Steps hidden by this filter." Margin="0,6,0,0" HorizontalAlignment="Left"
+                                                Focusable="False" Visibility="Visible"
+                                                PlacementTarget="{Binding RelativeSource={RelativeSource Self}}">
+                        <Rectangle Name="showText" Tag="{DynamicResource Tap.Highlight}" IsHitTestVisible="False" Width="15"
+                                   Height="15">
+                          <Shape.Fill>
+                            <DrawingBrush Stretch="None">
+                              <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                  <GeometryDrawing>
+                                    <GeometryDrawing.Pen>
+                                      <Pen Thickness="1.5" StartLineCap="Round" EndLineCap="Round"
+                                           Brush="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Rectangle}}}"/>
+                                    </GeometryDrawing.Pen>
+                                    <GeometryDrawing.Geometry>
+                                      <GeometryGroup>
+                                        <PathGeometry Figures="M 1,2, 1,1, 0,0, 3,0, 2,1, 2,2">
+                                          <Geometry.Transform>
+                                            <ScaleTransform CenterX="1.5" CenterY="1.5" ScaleX="4" ScaleY="6"/>
+                                          </Geometry.Transform>
+                                        </PathGeometry>
+                                      </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                  </GeometryDrawing>
+                                </DrawingGroup>
+                              </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                          </Shape.Fill>
+                        </Rectangle>
+                        <controls:ControlDropDown.DropDownContent>
+                          <ListBox Name="filterList" Focusable="True" MaxHeight="400" VirtualizingPanel.IsVirtualizing="True"
+                                   ScrollViewer.CanContentScroll="True" Background="Transparent"
+                                   ItemsSource="{Binding Filter.UniqueValues}">
+                            <FrameworkElement.Resources>
+                              <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Control.Template">
+                                  <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                      <ContentPresenter/>
+                                    </ControlTemplate>
+                                  </Setter.Value>
+                                </Setter>
+                              </Style>
+                              <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+                              </Style>
+                            </FrameworkElement.Resources>
+                            <ItemsControl.ItemsPanel>
+                              <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsVirtualizing="True" Orientation="Vertical"/>
+                              </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                              <DataTemplate>
+                                <MenuItem Name="item" IsCheckable="True" Height="30" IsChecked="{Binding IsSelected}">
+                                  <HeaderedItemsControl.Header>
+                                    <TextBlock Name="headerText" Text="{Binding Name}"/>
+                                  </HeaderedItemsControl.Header>
+                                </MenuItem>
+                                <DataTemplate.Triggers>
+                                  <DataTrigger Value="False" Binding="{Binding IsSelectable}">
+                                    <Setter TargetName="item" Property="UIElement.Opacity" Value="0.5"/>
+                                  </DataTrigger>
+                                  <DataTrigger Value="True" Binding="{Binding OnlySaved}">
+                                    <Setter TargetName="item" Property="FrameworkElement.ToolTip"
+                                            Value="This value is not present in the current test plan. Click to remove it."/>
+                                    <Setter TargetName="headerText" Property="TextBlock.TextDecorations">
+                                      <Setter.Value>
+                                        <TextDecorationCollection>
+                                          <TextDecoration Location="Strikethrough"/>
+                                        </TextDecorationCollection>
+                                      </Setter.Value>
+                                    </Setter>
+                                  </DataTrigger>
+                                </DataTemplate.Triggers>
+                              </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                          </ListBox>
+                        </controls:ControlDropDown.DropDownContent>
+                      </controls:ControlDropDown>
+                      <DataTemplate.Triggers>
+                        <DataTrigger Value="0" Binding="{Binding Filter.Count}">
+                          <Setter TargetName="showText" Value="{DynamicResource Control.Static.Foreground}"
+                                  Property="FrameworkElement.Tag"/>
+                        </DataTrigger>
+                      </DataTemplate.Triggers>
+                    </DataTemplate>
+                  </FrameworkElement.Resources>
+                  <TextBlock FontFamily="{DynamicResource {x:Static mgr:FontManager.WslNormalFontFamilyKey}}" Text="{Binding}"/>
+                  <ContentPresenter Name="presenter"
+                                    Content="{Binding Column, RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}}"/>
+                </StackPanel>
+                <DataTemplate.Triggers>
+                  <DataTrigger Value="False"
+                               Binding="{Binding FilterMode, RelativeSource={RelativeSource AncestorType=local:TestPlanGrid}}">
+                    <Setter TargetName="presenter" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                </DataTemplate.Triggers>
+              </DataTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </DataGrid.ColumnHeaderStyle>
+      <DataGrid.CellStyle>
+        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+          <Setter Property="Control.Padding" Value="1,0"/>
+          <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+          <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+          <Setter Property="Control.Background" Value="Transparent"/>
+          <Setter Property="Control.BorderBrush" Value="{x:Null}"/>
+          <Style.Triggers>
+            <Trigger Property="local:PropertyColumn.Editable" Value="True">
+              <Setter Property="FrameworkElement.FocusVisualStyle">
+                <Setter.Value>
+                  <Style>
+                    <Setter Property="Control.Template">
+                      <Setter.Value>
+                        <ControlTemplate>
+                          <Grid Background="{DynamicResource Tap.Highlight}" VerticalAlignment="Bottom"
+                                HorizontalAlignment="Stretch" Height="1"/>
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="local:PropertyColumn.Editable" Value="False">
+              <Setter Property="FrameworkElement.FocusVisualStyle">
+                <Setter.Value>
+                  <Style>
+                    <Setter Property="Control.Template">
+                      <Setter.Value>
+                        <ControlTemplate>
+                          <Grid Background="Gray" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="1" Opacity="0.5"/>
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+              <Setter Property="Control.Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="False">
+              <Setter Property="Control.Background" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="local:PropertyColumn.Editable" Value="True">
+              <Setter Property="Control.BorderBrush" Value="{DynamicResource Tap.Highlight}"/>
+            </Trigger>
+            <Trigger Property="local:PropertyColumn.Editable" Value="False">
+              <Setter Property="Control.BorderBrush" Value="#80808080"/>
+            </Trigger>
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="UIElement.IsMouseOver" Value="True"/>
+                <Condition Property="DataGridCell.IsEditing" Value="False"/>
+              </MultiTrigger.Conditions>
+              <Setter Property="Control.BorderThickness" Value="0,0,0,1"/>
+              <Setter Property="FrameworkElement.Margin" Value="0,0,0,-1"/>
+            </MultiTrigger>
+          </Style.Triggers>
+        </Style>
+      </DataGrid.CellStyle>
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Header="Duration" IsReadOnly="True" Width="90">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="local:TestStepRowItem">
+              <Grid Name="grd" Margin="2,0" Background="Transparent" VerticalAlignment="Center"
+                    ToolTip="{Binding Path=ExpectedDuration, ElementName=bar, ConverterParameter='Expected duration (Average of previous runs): {0}', Converter={controls:StringFormatConverter}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="auto" MinWidth="60" SharedSizeGroup="DurationTimeGroup"/>
+                </Grid.ColumnDefinitions>
+                <controls:SimpleTextLine Grid.Column="1" Margin="3,0" IsHitTestVisible="False" Text="{Binding Duration, ElementName=bar}"/>
+                <Border Height="4" Grid.Column="0" Background="{DynamicResource ProgressBar.Static.Background}">
+                  <local:DurationControl x:Name="bar" IsHitTestVisible="False"
+                                         TextElement.Foreground="{DynamicResource Control.Static.Foreground}"
+                                         ProgressBarBrush="{DynamicResource Tap.Highlight}"
+                                         OvershootBrush="{DynamicResource Tap.Row.Selected}" Flow="{Binding Flow, Mode=OneWay}"/>
+                </Border>
+              </Grid>
+              <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding ExpectedDuration, ElementName=bar}" Value="{x:Null}">
+                  <Setter TargetName="grd" Value="{Binding Duration, ElementName=bar}" Property="FrameworkElement.ToolTip"/>
+                </DataTrigger>
+                <DataTrigger Value="False" Binding="{Binding Enabled}">
+                  <Setter Value="{DynamicResource Control.Disabled.Foreground}" Property="TextBlock.Foreground"/>
+                </DataTrigger>
+              </DataTemplate.Triggers>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn x:Name="flowColumn" Header="Flow" IsReadOnly="True" Width="150">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Border Background="{DynamicResource ProgressBar.Static.Background}" Height="4" VerticalAlignment="Center"
+                      Margin="2,0" Padding="0">
+                <local:FlowControl DetailBrush="{DynamicResource Tap.Highlight}" PrePlanRunBrush="{DynamicResource Tap.Highlight}"
+                                   PostPlanRunBrush="{DynamicResource Tap.Highlight}"
+                                   Tag="{DynamicResource Control.Disabled.Foreground}" Flow="{Binding Flow}"
+                                   DeferBrush="{Binding Tag, RelativeSource={RelativeSource Self}, Converter={controls:OpaqueColorConverter}, ConverterParameter=0.5}"/>
+              </Border>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+      <DataGrid.RowStyle>
+        <Style TargetType="{x:Type DataGridRow}">
+          <Setter Property="Control.BorderThickness" Value="0,0,0,1"/>
+          <Setter Property="Control.Padding" Value="0,0,0,1"/>
+          <Setter Property="Control.Background" Value="Transparent"/>
+          <Setter Property="AutomationProperties.AutomationId" Value="{Binding Step.Name, Mode=OneWay}"/>
+          <Setter Property="controls:ControlProvider.StepEnabled" Value="True"/>
+          <Setter Property="mgr:HelpManager.HelpLink" Value="{Binding Step, Converter={controls:HelpLinkConverter}}"/>
+          <Setter Property="local:AttachedAdorner.Adorner" Value="{x:Type local:ErrorAdorner}"/>
+          <Setter Property="local:AttachedAdorner.AdornerParameter" Value="{Binding}"/>
+          <Setter Property="FrameworkElement.ContextMenu">
+            <Setter.Value>
+              <ContextMenu AutomationProperties.AutomationId="TestStepContextMenu">
+                <MenuItem Command="local:MainWindow.AddStep" AutomationProperties.AutomationId="TestStepContextMenuAddStep"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.AddPlan"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.RemoveStep"
+                          AutomationProperties.AutomationId="TestStepContextMenuRemoveStep"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.RenameStep"
+                          AutomationProperties.AutomationId="TestStepContextMenuRenameStep"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.RunStep" AutomationProperties.AutomationId="TestStepContextMenuRunStep"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <Separator/>
+                <MenuItem Command="local:TestPlanGrid.Copy" AutomationProperties.AutomationId="TestStepContextMenuCopy"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:TestPlanGrid.Paste" AutomationProperties.AutomationId="TestStepContextMenuPaster"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.Undo" AutomationProperties.AutomationId="TestStepContextMenuUndo"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:MainWindow.Redo" AutomationProperties.AutomationId="TestStepContextMenuRedo"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <Separator/>
+                <MenuItem Command="local:TestPlanGrid.ExpandAll"
+                          AutomationProperties.AutomationId="TestStepContextMenuExpandAll"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:TestPlanGrid.CollapseAll"
+                          AutomationProperties.AutomationId="TestStepContextMenuCollapseAll"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:TestPlanGrid.SelectAll"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:TestPlanGrid.ToggleTestStep"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Command="local:TestPlanGrid.FilterModeToggle"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <Separator/>
+                <MenuItem Command="local:TestPlanGrid.ToggleBreakpoint"
+                          AutomationProperties.AutomationId="TestStepContextMenuBreakpoint"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                <MenuItem Name="TestStepContextJumpTo" Command="local:TestPlanGrid.JumpTo"
+                          ToolTipService.ShowOnDisabled="True"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                          ToolTip="Jump to a test step. This only works when execution is at a break, when the parent step supports it and it can only jump to a sibling step."/>
+                <Separator/>
+                <MenuItem Command="local:TestPlanGrid.ShowStepHelp"
+                          ToolTip="Show the help documentation for this test step. If this button is disabled, then the help documentation is not available."
+                          ToolTipService.ShowOnDisabled="True"
+                          CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding IsEnabled}" Value="false">
+              <Setter Property="Control.Foreground" Value="{DynamicResource Control.Disabled.Foreground}"/>
+              <Setter Property="controls:ControlProvider.StepEnabled" Value="False"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsDraggedOver}" Value="True">
+              <Setter Property="Control.Background" Value="{DynamicResource DataGrid.MouseOver.Background}"/>
+            </DataTrigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+              <Setter Property="Control.Background" Value="{DynamicResource DataGrid.MouseOver.Background}"/>
+            </Trigger>
+            <Trigger Property="DataGridRow.IsSelected" Value="True">
+              <Setter Property="Control.Background" Value="{DynamicResource Tap.Row.Selected}"/>
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </DataGrid.RowStyle>
+      <DataGrid.RowHeaderStyle>
+        <Style TargetType="{x:Type DataGridRowHeader}">
+          <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch"/>
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                <Grid Name="basegrid" Background="{TemplateBinding Control.Background}">
+                  <local:StepRunningControl x:Name="stepRunning" IsRunning="{Binding Flow.IsRunning, Mode=OneWayToSource}"
+                                            Flow="{Binding Flow, Mode=OneWay}"/>
+                  <CheckBox Name="toggle" Foreground="{DynamicResource Tap.Highlight}" Panel.ZIndex="100"
+                            HorizontalAlignment="Stretch" Padding="0,0,2,0"
+                            IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Path=Item.IsExpanded, Mode=TwoWay}">
+                    <Control.Template>
+                      <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}"/>
+                      </ControlTemplate>
+                    </Control.Template>
+                    <Grid Name="border" HorizontalAlignment="Left" Background="Transparent">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                      </Grid.ColumnDefinitions>
+                      <ItemsControl x:Name="PathStack" VerticalAlignment="Center" Height="30" Margin="0,0,0,-10"
+                                    ItemsSource="{Binding AllParents}">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                          </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate DataType="{x:Type local:TestStepRowItem}">
+                            <Canvas x:Name="rect" Visibility="Hidden" Height="30" Width="13" Opacity="{StaticResource PathOpacity}">
+                              <Path Stretch="None" Data="M 1.5,-5 L 1.5,26 " Stroke="{DynamicResource Control.Static.Foreground}"
+                                    StrokeThickness="{StaticResource PathThickness}" Canvas.Top="0" Canvas.Left="6.5"/>
+                            </Canvas>
+                            <DataTemplate.Triggers>
+                              <DataTrigger Value="False" Binding="{Binding IsEndPoint}">
+                                <Setter TargetName="rect" Property="UIElement.Visibility" Value="Visible"/>
+                              </DataTrigger>
+                              <DataTrigger Value="False" Binding="{Binding IsVisible}">
+                                <Setter TargetName="rect" Property="UIElement.Visibility" Value="Hidden"/>
+                              </DataTrigger>
+                              <DataTrigger Value="False" Binding="{Binding IsExpanded}">
+                                <Setter TargetName="rect" Property="UIElement.Visibility" Value="Hidden"/>
+                              </DataTrigger>
+                            </DataTemplate.Triggers>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                      <Canvas x:Name="StepNodeCanvas" Grid.Column="1" Margin="0,0,0,0" Width="13" SnapsToDevicePixels="False"
+                              Opacity="{StaticResource PathOpacity}">
+                        <Path x:Name="aa" Data="M 2.82,5.25 L 7,12.5 " Stroke="{DynamicResource Control.Static.Foreground}"
+                              StrokeThickness="{StaticResource PathThickness}" Visibility="Visible" Canvas.Left="7"
+                              Canvas.Top="10"/>
+                        <Path x:Name="toParent" Data="M -1.9,-2 L -6,-9.5 " Stroke="{DynamicResource Control.Static.Foreground}"
+                              StrokeThickness="{StaticResource PathThickness}" Visibility="Visible" Canvas.Left="7"
+                              Canvas.Top="7"/>
+                        <Path x:Name="toNext" Data="M 1.5,0 L 1.5,8 " Stroke="{DynamicResource Control.Static.Foreground}"
+                              StrokeThickness="{StaticResource PathThickness}" Visibility="Visible" Canvas.Left="6.5"
+                              Canvas.Top="16"/>
+                        <Path x:Name="toPrev" Data="M 1.5,4 L 1.5,-2 " Stroke="{DynamicResource Control.Static.Foreground}"
+                              StrokeThickness="{StaticResource PathThickness}" Visibility="Visible" Canvas.Left="6.5"
+                              Canvas.Top="0"/>
+                        <Grid Canvas.Top="2" Canvas.Left="-1" Width="17" Height="17">
+                          <Ellipse Name="ellipse" Fill="{DynamicResource Tap.Panel.Background}"
+                                   Stroke="{DynamicResource Control.Static.Foreground}" Width="13" Height="13"/>
+                          <Ellipse Name="disabledBreakpointEllipse" Fill="{DynamicResource failColor}" Opacity="0.5" Width="13"
+                                   Height="13" Visibility="Collapsed"/>
+                          <Rectangle x:Name="horizontalPath" Width="7" Height="1" Fill="{DynamicResource Control.Static.Foreground}"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                          <Rectangle x:Name="verticalPath" Width="1" Height="7" Fill="{DynamicResource Control.Static.Foreground}"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                          <Viewbox Stretch="UniformToFill" Height="9" Width="9" VerticalAlignment="Center">
+                            <Path x:Name="arrow" Stretch="UniformToFill" Data="M -3,2 L 2,2 2,4.5 7,0 2,-4.5 2,-2 -3,-2 -3,2 "
+                                  StrokeThickness="0.5" Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                          </Viewbox>
+                        </Grid>
+                      </Canvas>
+                    </Grid>
+                  </CheckBox>
+                </Grid>
+                <ControlTemplate.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Binding="{Binding IsMouseOver, ElementName=border}" Value="true"/>
+                      <Condition Binding="{Binding HasChildren}" Value="true"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="ellipse" Value="{DynamicResource Control.MouseOver.Background.MediumDark}"
+                            Property="Shape.Fill"/>
+                    <Setter TargetName="ellipse" Value="{DynamicResource Control.MouseOver.Border}" Property="Shape.Stroke"/>
+                    <Setter TargetName="verticalPath" Value="{DynamicResource Control.MouseOver.Border}" Property="Shape.Fill"/>
+                    <Setter TargetName="horizontalPath" Value="{DynamicResource Control.MouseOver.Border}"
+                            Property="Shape.Fill"/>
+                  </MultiDataTrigger>
+                  <DataTrigger Value="false" Binding="{Binding IsExpanded}">
+                    <Setter TargetName="aa" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="false" Binding="{Binding HasChildren}">
+                    <Setter TargetName="aa" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="verticalPath" Property="UIElement.Visibility" Value="Collapsed"/>
+                    <Setter TargetName="horizontalPath" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="true" Binding="{Binding IsExpanded}">
+                    <Setter TargetName="verticalPath" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="true" Binding="{Binding IsEndPoint}">
+                    <Setter TargetName="toNext" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="False" Binding="{Binding FirstChild}">
+                    <Setter TargetName="toParent" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding FirstChild}">
+                    <Setter TargetName="toPrev" Property="UIElement.Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                  <DataTrigger Value="true"
+                               Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Path=IsSelected}">
+                    <Setter TargetName="border" Value="{DynamicResource Tap.Row.Selected}" Property="Panel.Background"/>
+                  </DataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding IsBreakpoint}">
+                    <Setter TargetName="ellipse" Value="{DynamicResource failColor}" Property="Shape.Fill"/>
+                  </DataTrigger>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Binding="{Binding IsBreakpoint}" Value="True"/>
+                      <Condition Binding="{Binding Enabled}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="ellipse" Property="Shape.Fill" Value="Transparent"/>
+                    <Setter TargetName="disabledBreakpointEllipse" Property="UIElement.Visibility" Value="Visible"/>
+                  </MultiDataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding IsRunning, ElementName=stepRunning}">
+                    <Setter TargetName="ellipse" Value="{DynamicResource Tap.Highlight}" Property="Shape.Stroke"/>
+                  </DataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding IsAtBreak}">
+                    <Setter TargetName="arrow" Property="Shape.Fill" Value="Yellow"/>
+                    <Setter TargetName="arrow" Property="Shape.Stroke" Value="Black"/>
+                  </DataTrigger>
+                  <DataTrigger Value="True"
+                               Binding="{Binding FilterMode, RelativeSource={RelativeSource AncestorType=local:TestPlanGrid}}">
+                    <Setter TargetName="basegrid" Property="UIElement.Visibility" Value="Hidden"/>
+                  </DataTrigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </DataGrid.RowHeaderStyle>
+    </DataGrid>
+  </Grid>
+</local:TestPlanGrid>

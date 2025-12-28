@@ -1,0 +1,31 @@
+<local:MultiSelect xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:local="clr-namespace:Keysight.OpenTap.Wpf">
+  <Grid Name="grid">
+    <ComboBox Name="selectablesBox" ItemsSource="{Binding Selectables, NotifyOnSourceUpdated=True}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <MenuItem IsCheckable="True" Header="{Binding Name}"
+                    ToolTip="{Binding Name, Converter={local:DescriptionConverter}}"
+                    IsChecked="{Binding IsSelected, NotifyOnSourceUpdated=True}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+          <Setter Property="Control.Template">
+            <Setter.Value>
+              <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                <ContentPresenter local:ControlProvider.SingleLineView="true"/>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </ComboBox>
+    <ContentPresenter TextElement.Foreground="{DynamicResource DropDown.LightWeight.Static.Foreground}"
+                      IsHitTestVisible="False" Margin="5,0,30,0" VerticalAlignment="Center"
+                      Opacity="{Binding Opacity, ElementName=selectablesBox}" Content="{Binding Name}"/>
+  </Grid>
+</local:MultiSelect>

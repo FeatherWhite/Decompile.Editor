@@ -1,0 +1,16 @@
+<controls:ListSettingsControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:controls="clr-namespace:Keysight.OpenTap.Wpf">
+  <FrameworkElement.Resources>
+    <controls:DisplayNameAttributeConverter x:Key="displayNameAttributeConverter"/>
+  </FrameworkElement.Resources>
+  <controls:PropGridListEditor PropertyEdited="PropGridLite_PropertyEdited" UndoEnabled="true"
+                               ContentEnabled="{Binding Path=DataContext.Settings.AllowEdit, RelativeSource={RelativeSource AncestorType={x:Type controls:SettingsDialog}}}"
+                               AutomationProperties.AutomationId="{Binding Converter={StaticResource displayNameAttributeConverter}}">
+    <controls:PropGridListEditorBase.List>
+      <Binding NotifyOnValidationError="True" ValidatesOnDataErrors="True"/>
+    </controls:PropGridListEditorBase.List>
+  </controls:PropGridListEditor>
+</controls:ListSettingsControl>

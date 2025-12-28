@@ -1,0 +1,53 @@
+<SimpleColorPicker xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   MinWidth="20" MinHeight="20">
+  <ComboBox ItemsSource="{Binding AvailableColors, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Control.Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ComboBox}">
+              <Grid>
+                <ToggleButton Name="border" Focusable="False" ClickMode="Press"
+                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                  <Border Width="10" Height="10" Margin="1" BorderThickness="1" BorderBrush="Black"
+                          Background="{Binding SelectedColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                </ToggleButton>
+                <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding ComboBox.SelectionBoxItem}"
+                                  ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
+                                  ContentTemplateSelector="{TemplateBinding ItemsControl.ItemTemplateSelector}"/>
+                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}"
+                       AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                  <Grid Name="DropDown" SnapsToDevicePixels="True"
+                        MinWidth="{TemplateBinding FrameworkElement.ActualWidth}"
+                        MaxHeight="{TemplateBinding ComboBox.MaxDropDownHeight}">
+                    <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="LightGray"/>
+                    <ScrollViewer Margin="1,1,1,1" SnapsToDevicePixels="True">
+                      <ItemsControl KeyboardNavigation.DirectionalNavigation="Contained"
+                                    ItemsSource="{Binding AvailableColors, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Border Name="border" Width="15" Height="15" Margin="1" BorderThickness="1" BorderBrush="Transparent">
+                              <Rectangle Fill="{Binding}"/>
+                            </Border>
+                            <DataTemplate.Triggers>
+                              <Trigger Property="UIElement.IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="Border.BorderBrush" Value="Black"/>
+                              </Trigger>
+                            </DataTemplate.Triggers>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </ScrollViewer>
+                  </Grid>
+                </Popup>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </FrameworkElement.Style>
+  </ComboBox>
+</SimpleColorPicker>

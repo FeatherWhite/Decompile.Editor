@@ -1,0 +1,38 @@
+<local:AutoCompleteTextBox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:local="clr-namespace:Keysight.OpenTap.Wpf"
+                           Name="thisCompleteBox">
+  <Control.Template>
+    <ControlTemplate TargetType="{x:Type UserControl}">
+      <ContentPresenter VerticalAlignment="{TemplateBinding FrameworkElement.VerticalAlignment}"/>
+    </ControlTemplate>
+  </Control.Template>
+  <local:ControlDropDown x:Name="PART_Popup" GlyphClicked="a" StaysOpen="True" VerticalAlignment="Stretch"
+                         GlyphInside="True" BorderBrush="{DynamicResource TextBox.Static.Border}" BorderThickness="1">
+    <ContentControl.Content>
+      <TextBox Name="PART_textbox" Focusable="True" BorderThickness="0"
+               Padding="{Binding Padding, Mode=TwoWay, ElementName=thisCompleteBox}"
+               Text="{Binding Text, Mode=TwoWay, ElementName=thisCompleteBox, UpdateSourceTrigger=PropertyChanged}"/>
+    </ContentControl.Content>
+    <local:ControlDropDown.DropDownContent>
+      <Border Background="{DynamicResource ToolBar.Static.Background}">
+        <ListBox x:Name="PART_ListBox" HorizontalContentAlignment="Stretch" SelectionMode="Single" Focusable="False"
+                 MaxHeight="300">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type local:AutoCompleteItem}">
+              <MenuItem Padding="0" Height="30" Header="{Binding Path=Value, Converter={local:EscapeUnderscoreConverter}}"/>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <FrameworkElement.Resources>
+            <Style TargetType="{x:Type ListBoxItem}">
+              <Setter Property="FrameworkElement.Height" Value="NaN"/>
+              <Setter Property="Control.Padding" Value="0"/>
+            </Style>
+          </FrameworkElement.Resources>
+        </ListBox>
+      </Border>
+    </local:ControlDropDown.DropDownContent>
+  </local:ControlDropDown>
+</local:AutoCompleteTextBox>

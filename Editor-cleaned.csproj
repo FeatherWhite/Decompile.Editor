@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: D:\Software\de4dot-cex\EditorCE\Editor-cleaned.exe-->
+  <Import Project="packages\OpenTAP.9.31.1\build\OpenTap.props" Condition="Exists('packages\OpenTAP.9.31.1\build\OpenTap.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3829E4F-D03E-458D-82C8-D986B045607D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ApplicationVersion>9.17.5.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AvalonDock">
+      <HintPath>lib\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Keysight.Ccl.Wsl">
+      <HintPath>lib\Keysight.Ccl.Wsl.dll</HintPath>
+    </Reference>
+    <Reference Include="Keysight.OpenTap.Licensing" />
+    <Reference Include="Keysight.OpenTap.Wpf-cleaned">
+      <HintPath>.\Keysight.OpenTap.Wpf-cleaned.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTap, Version=9.31.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\OpenTAP.9.31.1\lib\netstandard2.0\OpenTap.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTap.Package" />
+    <Reference Include="PackageManager" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class0.cs" />
+    <Compile Include="XamlGeneratedNamespace\GeneratedInternalTypeHelper.cs" />
+    <Compile Include="Tap\Shared\Class1.cs" />
+    <Compile Include="Tap\Shared\Class2.cs" />
+    <Compile Include="OpenTap\Class4.cs" />
+    <Compile Include="OpenTap\Class5.cs" />
+    <Compile Include="OpenTap\Class8.cs" />
+    <Compile Include="OpenTap\Class11.cs" />
+    <Compile Include="OpenTap\Class12.cs" />
+    <Compile Include="OpenTap\Class15.cs" />
+    <Compile Include="OpenTap\Class16.cs" />
+    <Compile Include="OpenTap\Class18.cs" />
+    <Compile Include="OpenTap\Class19.cs" />
+    <Compile Include="OpenTap\Interface0`2.cs" />
+    <Compile Include="OpenTap\Class20`3.cs" />
+    <Compile Include="OpenTap\Class21`2.cs" />
+    <Compile Include="OpenTap\Class24.cs" />
+    <Compile Include="OpenTap\Class38.cs" />
+    <Compile Include="OpenTap\Class40.cs" />
+    <Compile Include="OpenTap\Class41.cs" />
+    <Compile Include="OpenTap\Class42.cs" />
+    <Compile Include="OpenTap\Class48.cs" />
+    <Compile Include="OpenTap\Class49.cs" />
+    <Compile Include="OpenTap\Struct6.cs" />
+    <Compile Include="OpenTap\Class50.cs" />
+    <Compile Include="OpenTap\Class51.cs" />
+    <Compile Include="OpenTap\Class52.cs" />
+    <Compile Include="OpenTap\Class54.cs" />
+    <Compile Include="OpenTap\Class55.cs" />
+    <Compile Include="OpenTap\Cli\Class56.cs" />
+    <Compile Include="OpenTap\Cli\Class58.cs" />
+    <Compile Include="OpenTap\Cli\Class59.cs" />
+    <Compile Include="OpenTap\Package\Ipc\Class60.cs" />
+    <Compile Include="Keysight\OpenTap\Class61.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\App.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\AttachedAdorner.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\AeroTheme.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\PanelSettings.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class64.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\BitMatrix.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\CallbackChannels.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnFilterContextInstance.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnFilterContext.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnFilter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnViewProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnVisibilityDetails.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\DurationToProgressConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\DurationToProgressStateConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\EditorCliAction.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ErrorAdorner.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ErrorAdornerView.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class76`1.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\InstrumentStatus.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\StatusButton.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\IntNotZeroToBoolConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\RunExplorer.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ResultsViewer.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class79.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class80.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\LogPanelPlugin.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\MainWindow.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\MainWindowContext.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\SubGuiContext.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\MultipleChoiceWindow.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\OrConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class133.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class134.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\PlanLoadedWithErrorsQuestion.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\PresetsMenuItem.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\PropertyColumn.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\NorConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\RemainingTextConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\RunCompletedOverlay.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ScopeToStringConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\StepExplorerPlugin.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\StepSettingsPlugin.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TapDock.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanGrid.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\HeaderSimplifyConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class179.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanCountToHeadersVisibility.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\DataGridExtensions.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class182.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\FlowEventType.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\StepRunningControl.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\FlowControl.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\DurationControl.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\BackBuffered`1.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\FlowViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanGridListener.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanPlugin.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanSettings.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestPlanSettingsControl.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\TestStepRowItem.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\PackageManagerToolProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\RunExplorerToolProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ResultViewerToolProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ToolMenuEntry.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class198`1.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\UserPanel.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\WelcomeScreen.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\FileLink.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ToFullPathConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Class200.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Properties\Class202.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="avalondocktheme\images\dockablewindow.png" />
+    <Resource Include="avalondocktheme\images\dockablewindowdown.png" />
+    <Resource Include="avalondocktheme\images\dockablewindowside.png" />
+    <Resource Include="avalondocktheme\images\dockanchorablebottom.png" />
+    <Resource Include="avalondocktheme\images\dockanchorableleft.png" />
+    <Resource Include="avalondocktheme\images\dockanchorableright.png" />
+    <Resource Include="avalondocktheme\images\dockanchorabletop.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentasanchorablebottom.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentasanchorableleft.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentasanchorableright.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentasanchorabletop.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentbottom.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentinside.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentleft.png" />
+    <Resource Include="avalondocktheme\images\dockdocumentright.png" />
+    <Resource Include="avalondocktheme\images\dockdocumenttop.png" />
+    <Resource Include="avalondocktheme\images\dockpaneempty.png" />
+    <Resource Include="avalondocktheme\images\dockpanelargeempty.png" />
+    <Resource Include="avalondocktheme\images\htabgroup.png" />
+    <Resource Include="avalondocktheme\images\locked.png" />
+    <Resource Include="avalondocktheme\images\pinautohide.png" />
+    <Resource Include="avalondocktheme\images\pinautohide_black.png" />
+    <Resource Include="avalondocktheme\images\pinautohide_dark.png" />
+    <Resource Include="avalondocktheme\images\pinclose.png" />
+    <Resource Include="avalondocktheme\images\pinclose_black.png" />
+    <Resource Include="avalondocktheme\images\pinclose_dark.png" />
+    <Resource Include="avalondocktheme\images\pindocmenu.png" />
+    <Resource Include="avalondocktheme\images\pindocmenu_black.png" />
+    <Resource Include="avalondocktheme\images\pindocmenu_dark.png" />
+    <Resource Include="avalondocktheme\images\pinmaximize.png" />
+    <Resource Include="avalondocktheme\images\pinmaximize_black.png" />
+    <Resource Include="avalondocktheme\images\pinmaximize_dark.png" />
+    <Resource Include="avalondocktheme\images\pinmenu.png" />
+    <Resource Include="avalondocktheme\images\pinmenu_black.png" />
+    <Resource Include="avalondocktheme\images\pinmenu_dark.png" />
+    <Resource Include="avalondocktheme\images\pinrestore.png" />
+    <Resource Include="avalondocktheme\images\pinrestore_black.png" />
+    <Resource Include="avalondocktheme\images\pinrestore_dark.png" />
+    <Resource Include="avalondocktheme\images\vtabgroup.png" />
+    <Resource Include="images\analyze.png" />
+    <Resource Include="images\compare.png" />
+    <Resource Include="images\doc_delete.png" />
+    <Resource Include="images\doc_export.png" />
+    <Resource Include="images\doc_export32.png" />
+    <Resource Include="images\doc_import.png" />
+    <Resource Include="images\doc_new.png" />
+    <Resource Include="images\gui.png" />
+    <Resource Include="images\keysight_signature_dark.png" />
+    <Resource Include="images\keysight_signature_light.png" />
+    <Resource Include="images\keysightapplicationicontap64.png" />
+    <Resource Include="images\logfile.png" />
+    <Resource Include="images\open.png" />
+    <Resource Include="images\open_log.png" />
+    <Resource Include="images\pluginpuzzle16.png" />
+    <Resource Include="images\run.png" />
+    <Resource Include="images\saveblue.png" />
+    <Resource Include="images\savegreen.png" />
+    <Resource Include="images\submit.png" />
+    <Resource Include="images\tapappicon.ico" />
+    <Resource Include="images\tapdarkicon256x256.ico" />
+    <Resource Include="images\taplighticon64x64.ico" />
+    <Resource Include="images\tapplanicon.png" />
+    <Resource Include="images\testplanicon16.png" />
+    <Resource Include="images\warning16.png" />
+    <Resource Include="splash.png" />
+    <Resource Include="tap.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Keysight\OpenTap\Gui\Properties\Class202.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="avalondocktheme\avalondocktheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="erroradornerview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="instrumentstatus.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="mainwindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="multiplechoicewindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="runcompletedoverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="tapdock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="testplangrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="testplansettingscontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="welcomescreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\OpenTAP.9.31.1\build\OpenTap.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTAP.9.31.1\build\OpenTap.props'))" />
+    <Error Condition="!Exists('packages\OpenTAP.9.31.1\build\OpenTap.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTAP.9.31.1\build\OpenTap.targets'))" />
+  </Target>
+  <Import Project="packages\OpenTAP.9.31.1\build\OpenTap.targets" Condition="Exists('packages\OpenTAP.9.31.1\build\OpenTap.targets')" />
+</Project>

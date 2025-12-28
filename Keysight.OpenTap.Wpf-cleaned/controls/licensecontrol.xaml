@@ -1,0 +1,36 @@
+<local:LicenseControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:local="clr-namespace:Keysight.OpenTap.Wpf"
+                      Background="{DynamicResource DataGrid.ColumnHeader.Static.Background}">
+  <UIElement.CommandBindings>
+    <CommandBinding Command="Refresh"/>
+  </UIElement.CommandBindings>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Menu>
+      <Button VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0,1,0,0"
+              ToolTipService.ShowOnDisabled="True" BorderThickness="0" Command="Refresh"
+              ToolTip="{Binding ElementName=baseGrid, Path=DataContext.CanRefreshToolTip}"
+              IsEnabled="{Binding ElementName=baseGrid, Path=DataContext.CanRefresh}">
+        <ContentControl.Content>
+          <Rectangle Height="15" Width="15" Fill="{DynamicResource Reload}"/>
+        </ContentControl.Content>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Style.Triggers>
+              <Trigger Property="UIElement.IsMouseOver" Value="False">
+                <Setter Property="Control.Background" Value="Transparent"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+    </Menu>
+    <DataGrid Grid.Row="1" AutoGenerateColumns="true" ItemsSource="{Binding Licenses}"/>
+  </Grid>
+</local:LicenseControl>

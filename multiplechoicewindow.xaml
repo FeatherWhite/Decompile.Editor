@@ -1,0 +1,48 @@
+<MultipleChoiceWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:ui="clr-namespace:Keysight.Ccl.Wsl.UI;assembly=Keysight.Ccl.Wsl"
+                      xmlns:controls="clr-namespace:Keysight.OpenTap.Wpf;assembly=Keysight.OpenTap.Wpf"
+                      WindowStartupLocation="CenterOwner" Title="MultipleChoiceWindow" MinWidth="300" MinHeight="132">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/DefaultStyle.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      <controls:EnumToStringConverter x:Key="enumToStringConverter"/>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <TextBlock Name="c" Margin="4" TextWrapping="Wrap"/>
+    </ScrollViewer>
+    <ItemsControl Name="d" AlternationCount="1000" Focusable="False" FocusManager.IsFocusScope="True" Grid.Row="1"
+                  HorizontalAlignment="Right" VerticalAlignment="Bottom">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Button Name="choiceButton" Padding="3,2" MinWidth="55" Margin="2,0,0,0"
+                  Content="{Binding Converter={StaticResource enumToStringConverter}}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                               Value="0">
+                    <Setter Property="Button.IsDefault" Value="True"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Button>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
+</MultipleChoiceWindow>

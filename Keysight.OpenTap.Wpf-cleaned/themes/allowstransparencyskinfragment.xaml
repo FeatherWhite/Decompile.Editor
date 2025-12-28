@@ -1,0 +1,14 @@
+<AllowsTransparencySkinFragment xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:UI="clr-namespace:Keysight.Ccl.Wsl.UI;assembly=Keysight.Ccl.Wsl"
+                                xmlns:Mgr="clr-namespace:Keysight.Ccl.Wsl.UI.Managers;assembly=Keysight.Ccl.Wsl"
+                                xmlns:Props="clr-namespace:Keysight.Ccl.Wsl.Properties;assembly=Keysight.Ccl.Wsl"
+                                xmlns:Skins="clr-namespace:Keysight.Ccl.Wsl.UI.Resources.Skins;assembly=Keysight.Ccl.Wsl"
+                                xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <Style TargetType="{x:Type UI:WslMainWindow}" BasedOn="{StaticResource {x:Type UI:WslMainWindow}}">
+    <Setter Property="Window.AllowsTransparency" Value="True"/>
+  </Style>
+  <Style TargetType="{x:Type UI:WslDialog}" BasedOn="{StaticResource {x:Type UI:WslDialog}}">
+    <Setter Property="Window.AllowsTransparency" Value="True"/>
+  </Style>
+</AllowsTransparencySkinFragment>

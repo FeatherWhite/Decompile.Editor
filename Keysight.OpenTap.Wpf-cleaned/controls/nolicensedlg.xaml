@@ -1,0 +1,76 @@
+<NoLicenseDlg xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:ui="clr-namespace:Keysight.Ccl.Wsl.UI;assembly=Keysight.Ccl.Wsl"
+              SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ShowInTaskbar="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/DefaultStyle.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="500"/>
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Margin="10" TextWrapping="Wrap">
+      <Run Text="{Binding PackageName}"/>
+      requires a license, and a valid license was NOT found.
+    </TextBlock>
+    <TextBlock Grid.Row="1" Margin="10" TextWrapping="Wrap"
+               Visibility="{Binding KlNotFound, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+      A required program (KeysightLicenseActivator.exe or KeysightLicenseManager.exe) was not found. Please re-install Keysight License Manager. It can be downloaded from the web:
+      <Hyperlink x:Name="LicenseManagerHyperlink" NavigateUri="http://www.keysight.com/find/licensemanager">
+        http://www.keysight.com/find/licensemanager
+      </Hyperlink>
+    </TextBlock>
+    <Button Name="RequestTrialLicensBtn" Grid.Row="2" Margin="10" HorizontalAlignment="Stretch"
+            VerticalAlignment="Center" IsEnabled="{Binding KlFound}"
+            Visibility="{Binding KlFound, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
+      <TextBlock>
+        Request Trial License
+      </TextBlock>
+    </Button>
+    <Button Name="InstallLicenseFileBtn" Grid.Row="3" Margin="10" HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            ToolTip="Inside Keysight License Manager, use the Tool icon to install a license file."
+            IsEnabled="{Binding KlFound}"
+            Visibility="{Binding KlFound, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
+      Install a License File (*.lic)
+    </Button>
+    <Button Name="ActivateCertificateBtn" Grid.Row="4" Margin="10" HorizontalAlignment="Stretch"
+            VerticalAlignment="Center" IsEnabled="{Binding KlFound}"
+            Visibility="{Binding KlFound, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
+      Activate License Certificate (*.pdf)
+    </Button>
+    <Button Name="setupNetworkLicense" Grid.Row="5" Margin="10" HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
+      Configure network license server...
+    </Button>
+    <TextBlock Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,20,10,0"
+               IsEnabled="{Binding KlFound}"
+               Visibility="{Binding KlFound, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
+      <TextBlock Text="Host ID: "/>
+      <Hyperlink ToolTip="Click on the text to copy it to the clipboard.">
+        <TextBlock Text="{Binding HostID}"/>
+      </Hyperlink>
+    </TextBlock>
+    <TextBlock Name="CountDownTxtBl" Grid.Row="7" Margin="10,10,10,10" TextWrapping="Wrap"/>
+    <Button Name="CloseBtn" Grid.Row="7" Margin="10, 20, 10,10 " HorizontalAlignment="Right"
+            VerticalAlignment="Center">Close</Button>
+  </Grid>
+</NoLicenseDlg>

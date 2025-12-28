@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keysight.OpenTap.Wpf", "Keysight.OpenTap.Wpf-cleaned.csproj", "{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

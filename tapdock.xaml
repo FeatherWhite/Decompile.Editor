@@ -1,0 +1,43 @@
+<local:TapDock xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:local="clr-namespace:Keysight.OpenTap.Gui"
+               xmlns:WslManagers="clr-namespace:Keysight.Ccl.Wsl.UI.Managers;assembly=Keysight.Ccl.Wsl"
+               xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
+               xmlns:avalonDockControls="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+               xmlns:avalonDockControls2="clr-namespace:AvalonDock.Controls;assembly=AvalonDock">
+  <avalonDock:DockingManager Name="d" AllowMixedOrientation="True" Background="{DynamicResource Tap.Window.Background}"
+                             Foreground="{DynamicResource Control.Static.Foreground}"
+                             AnchorableTitleTemplate="{DynamicResource panelTitleTemplate}">
+    <avalonDock:DockingManager.Theme>
+      <local:AeroTheme/>
+    </avalonDock:DockingManager.Theme>
+    <avalonDock:DockingManager.LayoutItemContainerStyle>
+      <Style TargetType="{x:Type avalonDockControls2:LayoutItem}">
+        <Setter Property="avalonDockControls2:LayoutItem.Title" Value="{Binding Model.Title}"/>
+        <Setter Property="FrameworkElement.ToolTip" Value="{Binding Model.ToolTip}"/>
+        <Setter Property="WslManagers:HelpManager.HelpLink" Value="{Binding Model.HelpLink}"/>
+        <Setter Property="avalonDockControls2:LayoutItem.ContentId" Value="{Binding Model.ContentId}"/>
+      </Style>
+    </avalonDock:DockingManager.LayoutItemContainerStyle>
+    <avalonDockControls:LayoutRoot>
+      <avalonDockControls:LayoutPanel Orientation="Vertical">
+        <avalonDockControls:LayoutPanel Orientation="Horizontal" DockHeight="2.4*" DockMinWidth="100" DockMinHeight="100">
+          <avalonDockControls:LayoutAnchorablePane DockWidth="2.7*" DockMinWidth="100" DockMinHeight="100">
+            <avalonDockControls:LayoutAnchorable ContentId="Keysight.OpenTap.Gui.TestPlanPlugin"
+                                                 WslManagers:HelpManager.HelpLink="EditorHelp.chm::/Editor Overview/Test Plan Panel/Readme.html"/>
+          </avalonDockControls:LayoutAnchorablePane>
+          <avalonDockControls:LayoutAnchorablePane DockWidth="*" DockMinWidth="100" DockMinHeight="100">
+            <avalonDockControls:LayoutAnchorable ContentId="Keysight.OpenTap.Gui.StepSettingsPlugin"
+                                                 WslManagers:HelpManager.HelpLink="EditorHelp.chm::/Editor Overview/Step Settings Panel.html"/>
+          </avalonDockControls:LayoutAnchorablePane>
+        </avalonDockControls:LayoutPanel>
+        <avalonDockControls:LayoutAnchorablePane DockMinWidth="100" DockMinHeight="100">
+          <avalonDockControls:LayoutAnchorable ContentId="Keysight.OpenTap.Gui.LogPanelPlugin"
+                                               WslManagers:HelpManager.HelpLink="EditorHelp.chm::/Editor Overview/Log Panel/Readme.html"/>
+        </avalonDockControls:LayoutAnchorablePane>
+      </avalonDockControls:LayoutPanel>
+    </avalonDockControls:LayoutRoot>
+  </avalonDock:DockingManager>
+</local:TapDock>

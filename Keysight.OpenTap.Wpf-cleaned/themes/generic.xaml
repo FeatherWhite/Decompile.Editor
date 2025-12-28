@@ -1,0 +1,896 @@
+<Generic xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mgr="clr-namespace:Keysight.Ccl.Wsl.UI.Managers;assembly=Keysight.Ccl.Wsl"
+         xmlns:tap="clr-namespace:OpenTap;assembly=OpenTap"
+         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+         xmlns:local="clr-namespace:Keysight.OpenTap.Wpf">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/DefaultStyle.xaml"/>
+  </ResourceDictionary.MergedDictionaries>
+  <BitmapImage x:Key="SearchIcon">
+    /Keysight.OpenTap.Wpf;component/Images/search.png
+  </BitmapImage>
+  <BitmapImage x:Key="CancelIcon">
+    /Keysight.OpenTap.Wpf;component/Images/cancel.png
+  </BitmapImage>
+  <Path x:Key="undoArrow" Margin="-2" Opacity="0.7" Grid.Column="1" Fill="Black"
+        HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0,0 L -4,4 0,8 Z"/>
+  <GeometryGroup x:Key="Tap.BurgerMenuGlyph">
+    <GeometryGroup.Children>
+      <PathGeometry>
+        F1 M 32,29.3333L 9.33333,29.3333L 9.33333,26.6667L 32,26.6667L 32,29.3333 Z
+      </PathGeometry>
+      <PathGeometry>
+        F1 M 32,22.6667L 9.33333,22.6667L 9.33333,20L 32,20L 32,22.6667 Z
+      </PathGeometry>
+      <PathGeometry>
+        F1 M 32,16L 9.33333,16L 9.33333,13.3333L 32,13.3333L 32,16 Z
+      </PathGeometry>
+    </GeometryGroup.Children>
+  </GeometryGroup>
+  <DrawingBrush x:Key="Reload" Stretch="Uniform">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <DrawingGroup.Children>
+          <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                           Geometry="M 205,5 C 303,5 385,72 408,162 L 409,164 488,164 387,268 279,163 354,164 353,160 C 331,101 274,59 207,59 145,59 92,95 67,145 L 66,149 5,149 6,147 C 34,64 112,5 205,5 Z"/>
+          <DrawingGroup>
+            <DrawingGroup.Transform>
+              <TransformGroup>
+                <RotateTransform Angle="180"/>
+                <MatrixTransform Matrix="1,0,0,1,420,500"/>
+              </TransformGroup>
+            </DrawingGroup.Transform>
+            <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                             Geometry="M 205,5 C 303,5 385,72 408,162 L 409,164 488,164 387,268 279,163 354,164 353,160 C 331,101 274,59 207,59 145,59 92,95 67,145 L 66,149 5,149 6,147 C 34,64 112,5 205,5 Z"/>
+          </DrawingGroup>
+        </DrawingGroup.Children>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <DrawingBrush x:Key="Locked" Stretch="Uniform">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <DrawingGroup.Children>
+          <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                           Geometry="F1 M 27.112,17.3333 L 25.112,17.3333 25.112,13.196 C 25.112,10.3293 22.7773,7.99733 19.9093,7.99733 17.04,7.99733 14.7067,10.3293 14.7067,13.196 L 14.7067,17.3333 12.7067,17.3333 12.7067,13.196 C 12.7067,9.22666 15.9373,5.99733 19.9093,5.99733 23.8813,5.99733 27.112,9.22666 27.112,13.196 L 27.112,17.3333 Z"/>
+          <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                           Geometry="F1 M 29.152,30.6667 L 10.6667,30.6667 10.6667,17.3333 29.152,17.3333 29.152,30.6667 Z"/>
+        </DrawingGroup.Children>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <DrawingBrush x:Key="LockedInstalled" Stretch="Uniform">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <DrawingGroup.Children>
+          <GeometryDrawing Brush="{DynamicResource warningColor}"
+                           Geometry="F1 M 27.112,17.3333 L 25.112,17.3333 25.112,13.196 C 25.112,10.3293 22.7773,7.99733 19.9093,7.99733 17.04,7.99733 14.7067,10.3293 14.7067,13.196 L 14.7067,17.3333 12.7067,17.3333 12.7067,13.196 C 12.7067,9.22666 15.9373,5.99733 19.9093,5.99733 23.8813,5.99733 27.112,9.22666 27.112,13.196 L 27.112,17.3333 Z"/>
+          <GeometryDrawing Brush="{DynamicResource warningColor}"
+                           Geometry="F1 M 29.152,30.6667 L 10.6667,30.6667 10.6667,17.3333 29.152,17.3333 29.152,30.6667 Z"/>
+        </DrawingGroup.Children>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <DrawingBrush x:Key="Unlocked" Stretch="Uniform">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <DrawingGroup.Children>
+          <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                           Geometry="F1 M 27.112,13.6667 L 25.112,14.3333 25.112,13.196 C 25.112,10.3293 22.7773,7.99733 19.9093,7.99733 17.04,7.99733 14.7067,10.3293 14.7067,13.196 L 14.7067,20 12.7067,20 12.7067,13.196 C 12.7067,9.22666 15.9373,5.99733 19.9093,5.99733 23.8813,5.99733 27.112,9.22666 27.112,13.196 L 27.112,13.6667 Z"/>
+          <GeometryDrawing Brush="{DynamicResource Control.Static.Foreground}"
+                           Geometry="F1 M 29.152,33.3333 L 10.6667,33.3333 10.6667,20 29.152,20 29.152,33.3333 Z"/>
+        </DrawingGroup.Children>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <DrawingBrush x:Key="LockedFocused" Stretch="Uniform">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <DrawingGroup.Children>
+          <GeometryDrawing Brush="{DynamicResource Tap.Highlight}"
+                           Geometry="F1 M 27.112,17.3333 L 25.112,17.3333 25.112,13.196 C 25.112,10.3293 22.7773,7.99733 19.9093,7.99733 17.04,7.99733 14.7067,10.3293 14.7067,13.196 L 14.7067,17.3333 12.7067,17.3333 12.7067,13.196 C 12.7067,9.22666 15.9373,5.99733 19.9093,5.99733 23.8813,5.99733 27.112,9.22666 27.112,13.196 L 27.112,17.3333 Z"/>
+          <GeometryDrawing Brush="{DynamicResource Tap.Highlight}"
+                           Geometry="F1 M 29.152,30.6667 L 10.6667,30.6667 10.6667,17.3333 29.152,17.3333 29.152,30.6667 Z"/>
+        </DrawingGroup.Children>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <ControlTemplate x:Key="Tap.ParameterizedVisual">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="7" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry Figures="M 2 4 0 6 -6 0 0 -6 2 -4 " FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+      <Canvas Left="11" Top="6">
+        <Path Style="{StaticResource Tap.PathIconStyle}">
+          <Path.Data>
+            <PathGeometry Figures="M -4 0 4 0 1 3 4 0 1 -3" FillRule="NonZero"/>
+          </Path.Data>
+        </Path>
+      </Canvas>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.ParameterVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="7" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry Figures="M 0 6 -6 0 0 -6 6 0 Z" FillRule="NonZero"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.InputVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="9" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry>
+            <PathFigure StartPoint="0,-5">
+              <ArcSegment IsLargeArc="True" Size="5.5,5.5" Point="0,5"/>
+            </PathFigure>
+          </PathGeometry>
+        </Path.Data>
+      </Path>
+      <Path Canvas.Left="4" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry Figures="M 2,0 10,0 7,3 10,0 7,-3"/>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.AssignedOutputVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="0" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry>
+            <PathFigure StartPoint="0,0">
+              <ArcSegment IsLargeArc="True" Size="5.5,5.5" Point="0,-0.00001"/>
+            </PathFigure>
+          </PathGeometry>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.OutputVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="0" Canvas.Top="6" Opacity="0.25" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <PathGeometry>
+            <PathFigure StartPoint="0,0">
+              <ArcSegment IsLargeArc="True" Size="5.5,5.5" Point="0,-0.00001"/>
+            </PathFigure>
+          </PathGeometry>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.InputDisconnectVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="12">
+      <Path Canvas.Left="7" Canvas.Top="6" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <EllipseGeometry Center="0,0" RadiusX="6" RadiusY="6"/>
+        </Path.Data>
+      </Path>
+      <Path Canvas.Top="11" Canvas.Left="0" Style="{StaticResource Tap.PathIconStyle}"
+            Stroke="{StaticResource failColor}" Data="M -2,0 L 2,0 "/>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.ParameterizeVisual" TargetType="{x:Type Control}">
+    <Canvas Width="12" Height="12" TextElement.Foreground="{DynamicResource Control.Static.Foreground}">
+      <Path Canvas.Top="11" Canvas.Left="0" Style="{StaticResource Tap.PathIconStyle}"
+            Data="M -2,0 L 2,0 M 0,-2 L 0,2 "/>
+      <Path Canvas.Top="6" Canvas.Left="6" Style="{StaticResource Tap.PathIconStyle}"
+            Data="M 0,6 L -6,0 0,-6 6,0 Z"/>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.UnparameterizeVisual" TargetType="{x:Type Control}">
+    <Canvas Width="12" Height="12" TextElement.Foreground="{DynamicResource Control.Static.Foreground}">
+      <Path Canvas.Top="11" Canvas.Left="0" Style="{StaticResource Tap.PathIconStyle}"
+            Stroke="{StaticResource failColor}" Data="M -2,0 L 2,0 "/>
+      <Path Canvas.Top="6" Canvas.Left="6" Style="{StaticResource Tap.PathIconStyle}"
+            Data="M 0,6 L -6,0 0,-6 6,0 Z"/>
+    </Canvas>
+  </ControlTemplate>
+  <local:Alias x:Key="{x:Static tap:IconNames.EditParameter}" ResourceKey="Tap.ParameterVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.Parameterize}" ResourceKey="Tap.ParameterizeVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.ParameterizeOnTestPlan}" ResourceKey="Tap.ParameterizeVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.ParameterizeOnParent}" ResourceKey="Tap.ParameterizeVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.Unparameterize}" ResourceKey="Tap.UnparameterizeVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.AssignOutput}" ResourceKey="Tap.InputVisual"/>
+  <local:Alias x:Key="{x:Static tap:IconNames.UnassignOutput}" ResourceKey="Tap.InputDisconnectVisual"/>
+  <local:Alias x:Key="{x:Static local:IconNames.ShowParameter}" ResourceKey="Tap.ParameterizedVisual"/>
+  <local:Alias x:Key="{x:Static local:IconNames.ShowAssignedOutput}" ResourceKey="Tap.InputVisual"/>
+  <local:Alias x:Key="{x:Static local:IconNames.ShowAssignedInput}" ResourceKey="Tap.AssignedOutputVisual"/>
+  <ControlTemplate x:Key="Tap.Repeat" TargetType="{x:Type Control}">
+    <Canvas Width="20" Height="16">
+      <Path Canvas.Left="5" Canvas.Top="9" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M 4.5,-8 7.5,-5 4.5,-2"/>
+            <PathGeometry>
+              <PathFigureCollection>
+                <PathFigure StartPoint="10,5">
+                  <ArcSegment IsLargeArc="True" Size="5,5" Point="10,-5"/>
+                </PathFigure>
+                <PathFigure StartPoint="2.5,-5">
+                  <ArcSegment IsLargeArc="True" Size="5,5" Point="2.5,5"/>
+                </PathFigure>
+                <PathFigure StartPoint="2.5,5">
+                  <LineSegment Point="10,5"/>
+                </PathFigure>
+              </PathFigureCollection>
+            </PathGeometry>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.GearVisual" TargetType="{x:Type Control}">
+    <Canvas Width="12" Height="14">
+      <Path Canvas.Left="6" Canvas.Top="7" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M -1.247,5.869 1.247,5.869 2.472,7.608 5.353,5.945 4.459,4.015 5.706,1.854 7.825,1.663 7.825,-1.663 5.706,-1.854 4.459,-4.015 5.353,-5.945 2.472,-7.608 1.247,-5.869 -1.247,-5.869 -2.472,-7.608 -5.353,-5.945 -4.459,-4.015 -5.706,-1.854 -7.825,-1.663 -7.825,1.663 -5.706,1.854 -4.459,4.015 -5.353,5.945 -2.472,7.608 -1.247,5.869 1.247,5.869 2.472,7.608 5.353,5.945 4.459,4.015 5.706,1.854 7.825,1.663 7.825,-1.663 5.706,-1.854 4.459,-4.015 5.353,-5.945 2.472,-7.608 1.247,-5.869 -1.247,-5.869 -2.472,-7.608 -5.353,-5.945 -4.459,-4.015 -5.706,-1.854 -7.825,-1.663 -7.825,1.663 -5.706,1.854 -4.459,4.015 -5.353,5.945 -2.472,7.608 Z"/>
+            <EllipseGeometry Center="0,0" RadiusX="3" RadiusY="3"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.ErrorVisual" TargetType="{x:Type Control}">
+    <Canvas Width="16" Height="16">
+      <Path Canvas.Left="8" Canvas.Top="8" Fill="{DynamicResource Tap.ErrorBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <EllipseGeometry Center="0,0" RadiusX="8" RadiusY="8"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+      <Path Canvas.Left="8" Canvas.Top="8" Stroke="{DynamicResource Tap.ErrorForegroundBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M -4,-4 4,4"/>
+            <PathGeometry Figures="M -4,4 4,-4"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+      <UIElement.Effect>
+        <DropShadowEffect Opacity="0.12" Direction="-90" Color="#FF000000" ShadowDepth="1" BlurRadius="3"/>
+      </UIElement.Effect>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.InformationVisual" TargetType="{x:Type Control}">
+    <Canvas Width="16" Height="16">
+      <Path Canvas.Left="8" Panel.ZIndex="1" Canvas.Top="8" Style="{StaticResource Tap.PathIconStyle}"
+            Stroke="{DynamicResource Tap.InformationForegroundBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M -0,-5 0,-3"/>
+            <PathGeometry Figures="M -0,4 0,-1"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+      <Path Canvas.Left="8" Canvas.Top="8" Style="{StaticResource Tap.PathIconStyle}" StrokeThickness="0"
+            Fill="{DynamicResource Tap.InformationBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <EllipseGeometry Center="0,0" RadiusX="8" RadiusY="8"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.WarningVisual" TargetType="{x:Type Control}">
+    <Canvas Width="16" Height="16">
+      <Path Canvas.Left="8" Canvas.Top="7" Fill="{DynamicResource Tap.WarningBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M -8,8 0,-8 8,8 Z"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+      <Path Canvas.Left="8" Canvas.Top="7" Stroke="{DynamicResource Tap.WarningForegroundBrush}">
+        <Path.Data>
+          <GeometryGroup>
+            <PathGeometry Figures="M 0,6 0,4"/>
+            <PathGeometry Figures="M 0,-3 0,3"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+      <UIElement.Effect>
+        <DropShadowEffect Opacity="0.12" Direction="-90" Color="#FF000000" ShadowDepth="1" BlurRadius="3"/>
+      </UIElement.Effect>
+    </Canvas>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.InformationVisualDesaturated" TargetType="{x:Type Control}">
+    <FrameworkTemplate.Resources>
+      <local:Alias x:Key="Tap.InformationBrush" ResourceKey="Tap.DesaturatedInformationBrush"/>
+      <local:Alias x:Key="Tap.InformationForegroundBrush" ResourceKey="Tap.DesaturatedInformationForegroundBrush"/>
+    </FrameworkTemplate.Resources>
+    <Control Template="{StaticResource Tap.InformationVisual}"/>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.WarningVisualDesaturated" TargetType="{x:Type Control}">
+    <FrameworkTemplate.Resources>
+      <local:Alias x:Key="Tap.WarningForegroundBrush" ResourceKey="Tap.DesaturatedWarningForegroundBrush"/>
+      <local:Alias x:Key="Tap.WarningBrush" ResourceKey="Tap.DesaturatedWarningBrush"/>
+    </FrameworkTemplate.Resources>
+    <Control Template="{StaticResource Tap.WarningVisual}"/>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.ErrorVisualDesaturated" TargetType="{x:Type Control}">
+    <FrameworkTemplate.Resources>
+      <local:Alias x:Key="Tap.ErrorForegroundBrush" ResourceKey="Tap.DesaturatedWarningForegroundBrush"/>
+      <local:Alias x:Key="Tap.ErrorBrush" ResourceKey="Tap.DesaturatedWarningBrush"/>
+    </FrameworkTemplate.Resources>
+    <Control Template="{StaticResource Tap.ErrorVisual}"/>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.DebugVisual" TargetType="{x:Type Control}">
+    <Canvas Width="14" Height="16">
+      <Path Canvas.Left="2" Canvas.Top="2.5" Style="{StaticResource Tap.PathIconStyle}">
+        <Path.Data>
+          <GeometryGroup>
+            <EllipseGeometry Center="5,5" RadiusX="6" RadiusY="6"/>
+            <LineGeometry StartPoint="10,10" EndPoint="13,13"/>
+            <LineGeometry StartPoint="3,5" EndPoint="7,5"/>
+            <LineGeometry StartPoint="3,3" EndPoint="5,3"/>
+            <LineGeometry StartPoint="3,7" EndPoint="6,7"/>
+          </GeometryGroup>
+        </Path.Data>
+      </Path>
+    </Canvas>
+  </ControlTemplate>
+  <Style TargetType="{x:Type local:BurgerMenu}">
+    <Setter Property="Control.BorderThickness" Value="0"/>
+    <Setter Property="Control.BorderBrush" Value="Transparent"/>
+    <Setter Property="Control.IsTabStop" Value="False"/>
+    <Setter Property="local:BurgerMenu.ItemTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <ContentPresenter Content="{Binding}"/>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:BurgerMenu}">
+          <Border Name="bottomBorder">
+            <Grid>
+              <ContentPresenter Name="content" Content="{TemplateBinding ContentControl.Content}"/>
+              <Decorator Name="popupPlacementTarget" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+              <local:NotOnTopPopup x:Name="popup" AllowsTransparency="True" Placement="Custom" OpenLeftOf="True" Focusable="True"
+                                   StaysOpen="True" PopupAnimation="Fade" PlacementTarget="{Binding ElementName=popupPlacementTarget}"
+                                   DataContext="{Binding}">
+                <Grid Name="btn" Background="#01010101" IsSharedSizeScope="True">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type FrameworkElement}">
+                      <Setter Property="TextElement.FontFamily"
+                              Value="{DynamicResource {x:Static mgr:FontManager.WslMenuFontFamilyKey}}"/>
+                      <Setter Property="TextElement.FontSize"
+                              Value="{DynamicResource {x:Static mgr:FontManager.WslMenuFontSizeKey}}"/>
+                      <Setter Property="TextElement.FontStyle"
+                              Value="{DynamicResource {x:Static mgr:FontManager.WslMenuFontStyleKey}}"/>
+                      <Setter Property="TextElement.FontWeight"
+                              Value="{DynamicResource {x:Static mgr:FontManager.WslMenuFontWeightKey}}"/>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                  </Grid.RowDefinitions>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="auto" SharedSizeGroup="A"/>
+                      <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Name="filler" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" Visibility="Hidden" BorderThickness="1"/>
+                    <ToggleButton Grid.Column="1" Width="5" VerticalAlignment="Stretch" HorizontalAlignment="Left"
+                                  BorderThickness="0" Background="Transparent" Padding="0"
+                                  IsChecked="{Binding IsChecked, ElementName=btn2}"/>
+                    <Border Name="bottomBorder2" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="1,1,1,1"
+                            Background="{TemplateBinding Control.Background}"
+                            Height="{Binding ActualHeight, ElementName=bottomBorder}">
+                      <ToggleButton Name="btn2" Background="{TemplateBinding Control.Background}" Margin="0" HorizontalAlignment="Left"
+                                    Padding="1,0" BorderThickness="0" BorderBrush="{DynamicResource Tap.Highlight}">
+                        <Path Name="path" Margin="2" Height="10" Width="10" Fill="{DynamicResource Control.Disabled.Foreground}"
+                              Data="{DynamicResource Tap.BurgerMenuGlyph}" Stretch="Uniform"/>
+                      </ToggleButton>
+                    </Border>
+                  </Grid>
+                  <Grid Name="submenu" Visibility="Collapsed" Row="1">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="auto" SharedSizeGroup="A"/>
+                      <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="1,0,1,1"
+                            Background="{DynamicResource Menu.Static.Background}" Padding="0,3">
+                      <StackPanel Orientation="Horizontal">
+                        <ItemsControl ItemsSource="{TemplateBinding local:BurgerMenu.ItemsSource}"
+                                      ItemTemplate="{TemplateBinding local:BurgerMenu.ItemTemplate}"/>
+                        <ContentPresenter Content="{TemplateBinding local:BurgerMenu.Item}"
+                                          ContentTemplate="{TemplateBinding local:BurgerMenu.ItemTemplate}"
+                                          Visibility="{TemplateBinding Item, Converter={local:VisibilityConverter}, ConverterParameter={x:Static Visibility.Collapsed}}"/>
+                      </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" Margin="-1,0,0,0" BorderThickness="1,1,0,0"
+                            BorderBrush="{TemplateBinding Control.BorderBrush}" VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch"/>
+                  </Grid>
+                </Grid>
+              </local:NotOnTopPopup>
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="local:BurgerMenu.RequestOpen" Value="False">
+              <Setter TargetName="popup" Property="Popup.IsOpen" Value="False"/>
+              <Setter TargetName="bottomBorder" Property="Border.BorderBrush" Value="Transparent"/>
+              <Setter TargetName="btn2" Property="Control.BorderBrush" Value="Transparent"/>
+            </Trigger>
+            <Trigger SourceName="btn" Property="UIElement.IsMouseOver" Value="False">
+              <Setter TargetName="popup" Property="Popup.IsOpen" Value="False"/>
+              <Setter TargetName="btn2" Property="ToggleButton.IsChecked" Value="False"/>
+              <Setter Property="local:BurgerMenu.RequestOpen" Value="False"/>
+            </Trigger>
+            <Trigger Property="local:BurgerMenu.RequestOpen" Value="True">
+              <Setter TargetName="popup" Property="Popup.IsOpen" Value="True"/>
+            </Trigger>
+            <Trigger SourceName="btn" Property="UIElement.IsMouseOver" Value="True">
+              <Setter TargetName="popup" Property="Popup.IsOpen" Value="True"/>
+              <Setter TargetName="path" Value="{DynamicResource Tap.Highlight}" Property="Shape.Fill"/>
+            </Trigger>
+            <Trigger SourceName="btn2" Property="ToggleButton.IsChecked" Value="True">
+              <Setter TargetName="submenu" Property="UIElement.Visibility" Value="Visible"/>
+              <Setter TargetName="bottomBorder2" Property="Border.BorderThickness" Value="1,1,1,0"/>
+            </Trigger>
+            <Trigger SourceName="popup" Property="Popup.IsOpen" Value="False">
+              <Setter TargetName="btn2" Property="ToggleButton.IsChecked" Value="False"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="local:BurgerMenu.HasItems" Value="False">
+        <Setter Property="Control.Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type local:BurgerMenu}">
+              <ContentPresenter Content="{TemplateBinding ContentControl.Content}"/>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  <DataTemplate DataType="{x:Type local:ComboBoxItem}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="StepTypeNameColumn"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="0,0,6,0" Text="{Binding Name}"/>
+      <TextBlock Grid.Column="1" Text="{Binding TypeName}"/>
+    </Grid>
+  </DataTemplate>
+  <Style x:Key="PropGridHeader" TargetType="{x:Type CheckBox}">
+    <Setter Property="Control.IsTabStop" Value="False"/>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type CheckBox}">
+          <ToggleButton HorizontalAlignment="Stretch" Padding="4"
+                        Foreground="{DynamicResource GridView.ColumnHeader.Static.Foreground}"
+                        Background="{DynamicResource GridView.ColumnHeader.Static.Background}"
+                        Style="{DynamicResource ExpandCollapseToggleStyle}" IsTabStop="False" VerticalAlignment="Center"
+                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsChecked}">
+            <ContentPresenter ContentSource="Content" Margin="4,0,0,0"/>
+          </ToggleButton>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style x:Key="Tap.InvisibleButton" TargetType="{x:Type Button}">
+    <Setter Property="Control.BorderThickness" Value="0"/>
+    <Setter Property="Control.Padding" Value="0"/>
+    <Setter Property="Control.Background" Value="Transparent"/>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Button}">
+          <Border Background="{TemplateBinding Control.Background}">
+            <ContentPresenter/>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="UIElement.IsMouseOver" Value="True">
+        <Setter Property="Control.Background" Value="{DynamicResource GridView.ColumnHeader.Static.Background}"/>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  <ControlTemplate x:Key="Tap.ScopeControl" TargetType="{x:Type Control}">
+    <Button Style="{StaticResource Tap.InvisibleButton}"
+            Command="local:ExternalTestPlanParameters.RenameCommand"
+            ToolTip="{TemplateBinding FrameworkElement.ToolTip}" CommandParameter="{Binding}">
+      <Control IsHitTestVisible="False" Foreground="{TemplateBinding Control.Foreground}" Margin="0,0,2,0"
+               Template="{StaticResource Tap.ParameterVisual}"/>
+    </Button>
+    <ControlTemplate.Triggers>
+      <Trigger Property="UIElement.IsMouseOver" Value="True">
+        <Setter Value="{DynamicResource Tap.Highlight}" Property="Control.Foreground"/>
+      </Trigger>
+    </ControlTemplate.Triggers>
+  </ControlTemplate>
+  <sys:Double x:Key="Tap.Icon.Button.Height">20</sys:Double>
+  <sys:Double x:Key="Tap.Icon.Button.Width">20</sys:Double>
+  <ControlTemplate x:Key="Tap.OutputControl" TargetType="{x:Type Control}">
+    <Button Style="{StaticResource Tap.InvisibleButton}" ToolTip="This is an unconnected output.">
+      <Control IsHitTestVisible="False" Foreground="{TemplateBinding Control.Foreground}"
+               Template="{StaticResource Tap.OutputVisual}"/>
+    </Button>
+  </ControlTemplate>
+  <ControlTemplate x:Key="Tap.InlineMenuItem" TargetType="{x:Type Control}">
+    <Button Command="local:PropGrid.ActivateMenuCommand" Style="{StaticResource Tap.InvisibleButton}"
+            Padding="2,0" Margin="2,0" CommandParameter="{Binding}"
+            ToolTip="{Binding Item.CompleteDescription}">
+      <local:IconView Name="iconView" Foreground="{DynamicResource Control.Disabled.Foreground}"
+                      IconName="{Binding IconName}"/>
+    </Button>
+    <ControlTemplate.Triggers>
+      <Trigger Property="UIElement.IsMouseOver" Value="True">
+        <Setter TargetName="iconView" Value="{DynamicResource Tap.Highlight}" Property="Control.Foreground"/>
+      </Trigger>
+    </ControlTemplate.Triggers>
+  </ControlTemplate>
+  <DataTemplate DataType="{x:Type local:MenuUi}">
+    <MenuItem Name="item" Command="local:PropGrid.ActivateMenuCommand" Header="{Binding Item.DisplayName}"
+              ToolTip="{Binding Item.Description}" IsEnabled="{Binding IsEnabled}" CommandParameter="{Binding}"
+              CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=local:PropGrid}}"
+              Icon="{Binding IconName, Converter={local:IconConverter}}"/>
+    <DataTemplate.Triggers>
+      <DataTrigger Value="False" Binding="{Binding CalcVisibility}">
+        <Setter TargetName="item" Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+    </DataTemplate.Triggers>
+  </DataTemplate>
+  <DataTemplate DataType="{x:Type local:ItemUi}">
+    <Border Name="baseBackground" Background="Transparent" Padding="2,2,4,2">
+      <Grid Name="baseGrid" MaxHeight="{Binding MaxHeight, ElementName=hiddenBorder}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Border Name="hiddenBorder" Visibility="Hidden" Tag="{DynamicResource Tap.DataGrid.RowHeight.Medium}">
+          <FrameworkElement.MinHeight>
+            <MultiBinding Converter="{local:MultiplyConverter2}">
+              <Binding Path="Tag" ElementName="hiddenBorder"/>
+              <Binding Path="Item.RowHeight"/>
+            </MultiBinding>
+          </FrameworkElement.MinHeight>
+          <FrameworkElement.MaxHeight>
+            <MultiBinding Converter="{local:MultiplyConverter2}">
+              <Binding Path="Tag" ElementName="hiddenBorder"/>
+              <Binding Path="Item.MaxRowHeight"/>
+            </MultiBinding>
+          </FrameworkElement.MaxHeight>
+        </Border>
+        <Rectangle Name="errorMark" Grid.Column="1" Width="15" Height="15" Margin="1,0"
+                   Fill="{StaticResource InformationBrush}" Visibility="Visible" VerticalAlignment="Center">
+          <FrameworkElement.ToolTip>
+            <ItemsControl ItemsSource="{Binding DataErrors}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding}"/>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </FrameworkElement.ToolTip>
+        </Rectangle>
+        <Decorator Grid.Column="0" ToolTip="{Binding Item.Description}">
+          <Grid Name="grid2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="auto"/>
+              <ColumnDefinition x:Name="col2" Width="auto" MinWidth="13"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid ColumnSpan="3">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Decorator Width="{Binding Item.GroupName.Length, Converter={local:MultiplyConverter}, ConverterParameter=4}"/>
+              <Border Name="backgroundBorder" Margin="-1,0,0,0" Grid.Column="1" VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"/>
+            </Grid>
+            <Grid x:Name="itemName" Visibility="Collapsed" ColumnSpan="2" Column="1" Margin="3, 0, 3, 0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+              </Grid.ColumnDefinitions>
+              <StackPanel Orientation="Horizontal" Background="Transparent">
+                <Decorator Name="spacer"
+                           Width="{Binding Item.GroupName.Length, Converter={local:MultiplyConverter}, ConverterParameter=8}"/>
+                <local:BurgerMenu x:Name="burgermenu" BorderBrush="{DynamicResource Tap.Row.Selected.Discrete}"
+                                  Background="{DynamicResource Tap.Row.Selected.Discrete}">
+                  <StackPanel Background="Transparent" Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                    <Control Name="scopeControl" IsTabStop="False"/>
+                    <Control Name="outputControl" IsTabStop="False"/>
+                    <TextBlock Name="nameBlock" Margin="0,1,0,-1" VerticalAlignment="Center"
+                               Text="{Binding Item.DisplayName, Converter={local:StringTrimmingConverter}}"/>
+                  </StackPanel>
+                  <local:BurgerMenu.Item>
+                    <ContentControl IsTabStop="False" ContentTemplate="{Binding Tag, ElementName=baseGrid}" Content="{Binding}"/>
+                  </local:BurgerMenu.Item>
+                </local:BurgerMenu>
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,1">
+                <Control Name="inputControl" IsTabStop="False"/>
+                <Control Name="scopedControl" IsTabStop="False"/>
+              </StackPanel>
+            </Grid>
+            <Grid Name="itemControlGrid" Background="Transparent" Column="1" ColumnSpan="2" Margin="0,0,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+              <Decorator Name="spacer2"
+                         Width="{Binding Item.GroupName.Length, Converter={local:MultiplyConverter}, ConverterParameter=8}"/>
+              <ContentControl Name="itemControl" IsTabStop="False" Grid.Column="1" Margin="0,0,0,0"
+                              AutomationProperties.AutomationId="{Binding Item.DisplayName}"
+                              ToolTip="{Binding Item.CompleteDescription}" IsEnabled="{Binding IsEnabled}"
+                              Content="{Binding Control}"/>
+            </Grid>
+          </Grid>
+        </Decorator>
+      </Grid>
+    </Border>
+    <DataTemplate.Triggers>
+      <DataTrigger Value="True"
+                   Binding="{Binding DebugMode, RelativeSource={RelativeSource AncestorType=local:PropGrid}}">
+        <Setter TargetName="grid2" Property="FrameworkElement.ToolTip">
+          <Setter.Value>
+            <ContentControl>
+              <Control.Template>
+                <ControlTemplate>
+                  <StackPanel Orientation="Vertical">
+                    <TextBlock Name="descriptionText" Text="{Binding Item.Description}"/>
+                    <TextBlock Opacity="0.8" Text="{Binding Item.TypeDescription}"/>
+                    <TextBlock Opacity="0.5" Text="{Binding Item.AnnotationPath}"/>
+                  </StackPanel>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Item.Description}" Value="{x:Null}">
+                      <Setter TargetName="descriptionText" Property="UIElement.Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Control.Template>
+            </ContentControl>
+          </Setter.Value>
+        </Setter>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsReferenceScope}">
+        <Setter TargetName="scopeControl" Value="{StaticResource Tap.ScopeControl}" Property="Control.Template"/>
+        <Setter TargetName="scopeControl" Property="UIElement.IsEnabled" Value="False"/>
+        <Setter TargetName="scopeControl" Property="FrameworkElement.ToolTip"
+                Value="This is a referenced parameter. This parameter cannot be edited."/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsScope}">
+        <Setter TargetName="scopeControl" Value="{Binding EditParameterMenu}"
+                Property="FrameworkElement.DataContext"/>
+        <Setter TargetName="scopeControl" Value="{StaticResource Tap.InlineMenuItem}" Property="Control.Template"/>
+        <Setter TargetName="scopeControl" Property="FrameworkElement.ToolTip"
+                Value="This is a parameter. Click to edit it."/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsInputAssigned}">
+        <Setter TargetName="inputControl" Value="{Binding ShowAssignedOutputMenu}"
+                Property="FrameworkElement.DataContext"/>
+        <Setter TargetName="inputControl" Value="{StaticResource Tap.InlineMenuItem}" Property="Control.Template"/>
+        <Setter TargetName="itemControl" Property="UIElement.IsEnabled" Value="False"/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsOutput}">
+        <Setter TargetName="outputControl" Value="{StaticResource Tap.OutputControl}" Property="Control.Template"/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsOutputAssigned}">
+        <Setter TargetName="outputControl" Value="{Binding ShowAssignedInputMenu}"
+                Property="FrameworkElement.DataContext"/>
+        <Setter TargetName="outputControl" Value="{StaticResource Tap.InlineMenuItem}" Property="Control.Template"/>
+        <Setter TargetName="outputControl" Property="FrameworkElement.ToolTip" Value=""/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding IsScoped}">
+        <Setter TargetName="scopedControl" Value="{Binding ShowParameterMenu}"
+                Property="FrameworkElement.DataContext"/>
+        <Setter TargetName="scopedControl" Value="{StaticResource Tap.InlineMenuItem}" Property="Control.Template"/>
+        <Setter TargetName="itemControl" Property="UIElement.IsEnabled" Value="False"/>
+      </DataTrigger>
+      <DataTrigger Value="False"
+                   Binding="{Binding ContentEnabled, RelativeSource={RelativeSource AncestorType=local:PropGrid}}">
+        <Setter TargetName="grid2" Property="UIElement.IsEnabled" Value="False"/>
+      </DataTrigger>
+      <DataTrigger Value="False" Binding="{Binding Item.FullRow}">
+        <Setter TargetName="itemName" Property="UIElement.Visibility" Value="Visible"/>
+        <Setter TargetName="itemName" Property="Grid.Column" Value="1"/>
+        <Setter TargetName="itemName" Property="Grid.ColumnSpan" Value="1"/>
+        <Setter TargetName="itemControlGrid" Property="Grid.Column" Value="2"/>
+        <Setter TargetName="itemControlGrid" Property="Grid.ColumnSpan" Value="1"/>
+        <Setter TargetName="col2" Property="DefinitionBase.SharedSizeGroup" Value="PropGridLiteNameColumnSize"/>
+        <Setter TargetName="spacer2" Property="FrameworkElement.Width" Value="0"/>
+      </DataTrigger>
+      <DataTrigger Value="True" Binding="{Binding HideTitle}">
+        <Setter TargetName="itemName" Property="UIElement.Visibility" Value="Collapsed"/>
+        <Setter TargetName="itemControlGrid" Property="Grid.Column" Value="0"/>
+        <Setter TargetName="itemControlGrid" Property="Grid.ColumnSpan" Value="2"/>
+      </DataTrigger>
+      <DataTrigger Value="0" Binding="{Binding DataErrors.Length}">
+        <Setter TargetName="errorMark" Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+      <DataTrigger Value="False" Binding="{Binding IsVisible}">
+        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+      <Trigger Property="UIElement.IsMouseOver" Value="True">
+        <Setter TargetName="baseBackground" Value="{DynamicResource Tap.Row.Selected.Discrete}"
+                Property="Border.Background"/>
+        <Setter TargetName="burgermenu" Value="{DynamicResource Tap.Row.Selected.Discrete}"
+                Property="Control.Background"/>
+      </Trigger>
+      <DataTrigger Value="True"
+                   Binding="{Binding ContextTemplate, RelativeSource={RelativeSource AncestorType={x:Type local:PropGrid}}, Converter={local:IsNotNullConverter}}">
+        <Setter TargetName="baseGrid"
+                Value="{Binding ContextTemplate, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:PropGrid}}}"
+                Property="FrameworkElement.Tag"/>
+        <Setter TargetName="baseGrid" Property="FrameworkElement.ContextMenu">
+          <Setter.Value>
+            <ContextMenu>
+              <Control.Template>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                  <Border x:Name="Border" Background="{DynamicResource Menu.Static.Background}"
+                          BorderBrush="{DynamicResource Menu.Static.Background}" BorderThickness="1">
+                    <FrameworkElement.Resources>
+                      <DataTemplate DataType="{x:Type local:ItemUi}">
+                        <Decorator/>
+                      </DataTemplate>
+                    </FrameworkElement.Resources>
+                    <ContentPresenter ContentTemplate="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
+                                      Content="{Binding}"/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="ContextMenu.HasDropShadow" Value="true">
+                      <Setter TargetName="Border" Property="Border.Padding" Value="0,3"/>
+                      <Setter TargetName="Border" Property="Border.CornerRadius" Value="0"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Control.Template>
+            </ContextMenu>
+          </Setter.Value>
+        </Setter>
+      </DataTrigger>
+      <DataTrigger Value="False"
+                   Binding="{Binding ContextTemplate, RelativeSource={RelativeSource AncestorType={x:Type local:PropGrid}}, Converter={local:IsNotNullConverter}}">
+        <Setter TargetName="burgermenu" Value="{x:Null}" Property="local:BurgerMenu.Item"/>
+      </DataTrigger>
+    </DataTemplate.Triggers>
+  </DataTemplate>
+  <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+  <Style x:Key="SlimListBoxItem" TargetType="{x:Type ListBoxItem}"
+         BasedOn="{StaticResource {x:Type ListBoxItem}}">
+    <Setter Property="Control.Padding" Value="2,0"/>
+    <Setter Property="Control.VerticalContentAlignment" Value="Top"/>
+    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="UIElement.Focusable" Value="False"/>
+    <Setter Property="Control.IsTabStop" Value="False"/>
+    <Style.Triggers>
+      <DataTrigger Binding="{Binding CalcVisibility}" Value="False">
+        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <DataTemplate DataType="{x:Type local:GroupUi}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Decorator Name="spacer" Width="{Binding Level, Converter={local:MultiplyConverter}, ConverterParameter=8}"/>
+      <CheckBox Name="groupHeader" Grid.Column="1" Margin="-4,2,0,0" IsTabStop="False" Focusable="False"
+                BorderThickness="0" Style="{DynamicResource PropGridHeader}" Content="{Binding Name}"
+                IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
+    </Grid>
+    <DataTemplate.Triggers>
+      <DataTrigger Value="" Binding="{Binding Name}">
+        <Setter TargetName="groupHeader" Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+      <DataTrigger Value="False" Binding="{Binding IsVisible}">
+        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+      <DataTrigger Value="False"
+                   Binding="{Binding IsShowHeaders, RelativeSource={RelativeSource AncestorType={x:Type local:PropGrid}}}">
+        <Setter TargetName="groupHeader" Property="UIElement.Visibility" Value="Collapsed"/>
+      </DataTrigger>
+    </DataTemplate.Triggers>
+  </DataTemplate>
+  <Style TargetType="{x:Type local:PropGrid}">
+    <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
+    <Setter Property="UIElement.Focusable" Value="False"/>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:PropGrid}">
+          <Grid Background="{TemplateBinding Control.Background}"
+                DataContext="{TemplateBinding local:PropGrid.MainGroup}">
+            <FrameworkElement.Resources>
+              <Thickness x:Key="Button.Padding">1,0</Thickness>
+              <Thickness x:Key="TextBox.Padding">4,0</Thickness>
+              <Thickness x:Key="ComboBox.Padding">4,0</Thickness>
+            </FrameworkElement.Resources>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListBox ItemContainerStyle="{StaticResource SlimListBoxItem}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" KeyboardNavigation.TabNavigation="Continue"
+                     VirtualizingPanel.IsVirtualizing="false" VirtualizingPanel.ScrollUnit="Pixel"
+                     ItemsSource="{Binding SequentialNormal}"/>
+            <ItemsControl Name="PART_FloatBase" Grid.Row="1" Focusable="False" Margin="2,3,0,0" VerticalAlignment="Top"
+                          ItemsSource="{Binding SequentialFloatBottom}"/>
+            <ContentControl Name="loadingbar" Grid.Row="0" Grid.RowSpan="2" Content="Processing..." Visibility="Collapsed"
+                            Style="{DynamicResource LoadingOverlay}"/>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <DataTrigger Value="True" Binding="{Binding Processing, RelativeSource={RelativeSource Mode=Self}}">
+              <Setter TargetName="loadingbar" Property="UIElement.Visibility" Value="Visible"/>
+              <Setter TargetName="PART_FloatBase" Property="UIElement.IsEnabled" Value="False"/>
+            </DataTrigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <local:VisibilityConverter x:Key="boolToVisibility"/>
+  <Style TargetType="{x:Type local:AverageProgressBar}">
+    <Setter Property="Control.Foreground" Value="{DynamicResource Tap.Highlight}"/>
+    <Setter Property="Control.Background" Value="{DynamicResource Tap.Window.Background}"/>
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:AverageProgressBar}">
+          <Grid Name="TemplateRoot" UseLayoutRounding="False" SnapsToDevicePixels="True">
+            <Border Name="PART_Track" Background="{TemplateBinding Control.Background}" BorderThickness="0"
+                    BorderBrush="{DynamicResource Control.Static.Border.MediumDark}"/>
+            <Decorator Name="PART_Indicator" HorizontalAlignment="Left">
+              <Grid>
+                <Border Name="Indicator" Background="{TemplateBinding Control.Foreground}"/>
+                <Canvas Name="Animation" ClipToBounds="False" Visibility="Collapsed">
+                  <Rectangle Name="PART_GlowRect" Width="60" Canvas.Left="0" Canvas.Top="0" Height="25"
+                             Fill="{DynamicResource Tap.Highlight}">
+                    <UIElement.OpacityMask>
+                      <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="1.0" Color="Transparent"/>
+                        <GradientStop Offset="0.8" Color="White"/>
+                        <GradientStop Offset="0.2" Color="White"/>
+                        <GradientStop Offset="0.0" Color="Transparent"/>
+                      </LinearGradientBrush>
+                    </UIElement.OpacityMask>
+                  </Rectangle>
+                </Canvas>
+              </Grid>
+            </Decorator>
+            <Rectangle Name="PART_Average" Width="1" Fill="{DynamicResource Tap.Row.Selected}" HorizontalAlignment="Left"/>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsEnabled" Value="False">
+              <Setter TargetName="PART_Track" Property="UIElement.Opacity" Value="1"/>
+              <Setter TargetName="PART_Average" Property="UIElement.Visibility" Value="Collapsed"/>
+            </Trigger>
+            <Trigger Property="local:AverageProgressBar.IsIndeterminate" Value="True">
+              <Setter TargetName="Indicator" Property="UIElement.Visibility" Value="Hidden"/>
+              <Setter TargetName="PART_Average" Property="UIElement.Visibility" Value="Hidden"/>
+              <Setter TargetName="Animation" Property="UIElement.Visibility" Value="Visible"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <DataTemplate DataType="{x:Type tap:AnnotationCollection}">
+    <ContentPresenter Content="{Binding Converter={local:DataAnnotationControlConverter}}"/>
+  </DataTemplate>
+</Generic>

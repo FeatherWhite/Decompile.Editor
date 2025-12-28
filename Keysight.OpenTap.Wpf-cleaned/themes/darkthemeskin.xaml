@@ -1,0 +1,43 @@
+<DarkThemeSkin xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:Skins="clr-namespace:Keysight.Ccl.Wsl.UI.Resources.Skins;assembly=Keysight.Ccl.Wsl"
+               xmlns:local="clr-namespace:Keysight.OpenTap.Wpf">
+  <BitmapImage x:Key="KeysightSignatureIcon">
+    /Images/Keysight_Signature_Light.png
+  </BitmapImage>
+  <BitmapImage x:Key="TapIcon64x64">
+    /Keysight.OpenTap.Wpf;component/Images/KeysightApplicationIconTAP64.png
+  </BitmapImage>
+  <BitmapImage x:Key="TapIcon">
+    /Keysight.OpenTap.Wpf;component/Images/Icons/Tap.ico
+  </BitmapImage>
+  <BitmapImage x:Key="ResultsViewerIcon">
+    /Keysight.OpenTap.Wpf;component/Images/Icons/ResultsViewer.ico
+  </BitmapImage>
+  <BitmapImage x:Key="RunExplorerIcon">
+    /Keysight.OpenTap.Wpf;component/Images/Icons/RunExplorer.ico
+  </BitmapImage>
+  <BitmapImage x:Key="TimingAnalyzerIcon">
+    /Keysight.OpenTap.Wpf;component/Images/Icons/TimingAnalyzer.ico
+  </BitmapImage>
+  <BitmapImage x:Key="PackageManagerIcon">
+    /Keysight.OpenTap.Wpf;component/Images/Icons/PackageManager.ico
+  </BitmapImage>
+  <local:Alias x:Key="Tap.Panel.Background" ResourceKey="Window.Static.Background"/>
+  <local:Alias x:Key="Tap.Window.Background" ResourceKey="Control.Static.Background.Medium"/>
+  <local:Alias x:Key="Tap.Window.Background.Color" ResourceKey="Control.Static.Background.Color.Medium"/>
+  <local:Alias x:Key="Tap.Panel.BackgroundMedium" ResourceKey="Tap.Window.Background"/>
+  <local:Alias x:Key="Tap.Row.Selected" ResourceKey="Control.Accent.Medium"/>
+  <local:Alias x:Key="Tap.Highlight" ResourceKey="Control.Accent.Light"/>
+  <local:Alias x:Key="Button.Focus.Border" ResourceKey="Control.Accent.Light"/>
+  <local:Alias x:Key="Tap.Header" ResourceKey="DataGrid.ColumnHeader.Static.Background"/>
+  <local:Alias x:Key="ScrollBar.Static.Border" ResourceKey="Tap.Panel.Background"/>
+  <local:Alias x:Key="DropDown.LightWeight.Static.Background" ResourceKey="ComboBox.Static.Background"/>
+  <local:Alias x:Key="DropDown.LightWeight.Static.Border" ResourceKey="ComboBox.Static.Border"/>
+  <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}">
+    <Setter Property="FrameworkElement.VerticalAlignment" Value="Bottom"/>
+    <Setter Property="FrameworkElement.Height" Value="{DynamicResource Tap.MenuItem.Height}"/>
+  </Style>
+  <local:MixedColorBrush x:Key="Tap.Row.Selected.Discrete" Brush1Key="Tap.Panel.Background"
+                         Brush2Key="Tap.Window.Background" Amount="0.3"/>
+</DarkThemeSkin>

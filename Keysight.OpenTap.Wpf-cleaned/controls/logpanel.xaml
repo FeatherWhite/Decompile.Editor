@@ -1,0 +1,261 @@
+<local:LogPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:local="clr-namespace:Keysight.OpenTap.Wpf"
+                xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                Name="This" Background="Transparent">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/Themes/Generic.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <UIElement.CommandBindings>
+    <CommandBinding Command="local:LogPanel.OpenLinkCommand"/>
+    <CommandBinding Command="local:LogPanel.OpenFolderCommand"/>
+    <CommandBinding Command="local:LogPanel.CopyLinkCommand"/>
+    <CommandBinding Command="local:LogPanel.ClearCommand"/>
+    <CommandBinding Command="Copy"/>
+    <CommandBinding Command="local:LogPanel.OpenSessionLogCommand"/>
+    <CommandBinding Command="local:LogPanel.OpenSessionLogFoldeCommand"/>
+    <CommandBinding Command="local:LogPanel.AnalyzeCommand"/>
+    <CommandBinding Command="local:LogPanel.FindCommand"/>
+    <CommandBinding Command="local:LogPanel.FilterCommand"/>
+    <CommandBinding Command="local:LogPanel.ClosePopupCommand"/>
+  </UIElement.CommandBindings>
+  <FrameworkElement.ContextMenu>
+    <ContextMenu Name="gridContextMenu" AutomationProperties.AutomationId="LogPanelContextMenu">
+      <MenuItem Name="openLinkBtn" Command="local:LogPanel.OpenLinkCommand" Header="Open Link"
+                Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={local:VisibilityConverter}}"/>
+      <MenuItem Command="local:LogPanel.CopyLinkCommand" Header="Copy Link"
+                Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={local:VisibilityConverter}}"/>
+      <MenuItem Command="local:LogPanel.OpenFolderCommand" Header="Open Folder"
+                Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={local:VisibilityConverter}}"/>
+      <MenuItem Tag="{x:Static local:LogPanelFeatures.Clear}" Command="local:LogPanel.ClearCommand"
+                Header="Clear Log Panel" AutomationProperties.AutomationId="LogPanelContextMenuClearLog"/>
+      <MenuItem Command="Copy" Header="Copy" AutomationProperties.AutomationId="LogPanelContextMenuCopy"
+                CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+      <MenuItem Tag="{x:Static local:LogPanelFeatures.SessionLog}" Command="local:LogPanel.OpenSessionLogCommand"
+                Header="Open Session Log" AutomationProperties.AutomationId="LogPanelContextMenuOpenLog"/>
+      <MenuItem Tag="{x:Static local:LogPanelFeatures.SessionLog}"
+                Command="local:LogPanel.OpenSessionLogFoldeCommand" Header="Open Session Log Folder"/>
+      <MenuItem Tag="{x:Static local:LogPanelFeatures.TimingAnalyzerInterop}"
+                Command="local:LogPanel.AnalyzeCommand" Header="Analyze Session Log"
+                AutomationProperties.AutomationId="LogPanelContextMenuAnalyzeLog"/>
+    </ContextMenu>
+  </FrameworkElement.ContextMenu>
+  <Grid Name="basegrid" Focusable="True" Background="Transparent" DataContext="{Binding ElementName=This}"
+        FocusVisualStyle="{x:Null}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid x:Name="LogPanelToolBarGrid" Row="0" HorizontalAlignment="Left"
+          Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <ToolBar Padding="6" Grid.Column="0" AutomationProperties.AutomationId="LogPanelToolBar"
+               KeyboardNavigation.TabNavigation="Continue" Grid.ColumnSpan="2">
+        <CheckBox Name="errorToggle" VerticalAlignment="Center"
+                  Visibility="{DynamicResource LogPanelDeluxeFeaturesVisibility}" Margin="8,2"
+                  ToolTip="Show 'error' level messages in the log panel." Padding="0"
+                  AutomationProperties.AutomationId="LogPanelErrorsButton" IsChecked="{Binding ViewErrors}">
+          <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+            <Control Margin="0,0,0,2">
+              <Control.Template>
+                <ControlTemplate TargetType="{x:Type Control}">
+                  <Control x:Name="targetControl" Template="{StaticResource Tap.ErrorVisual}"/>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Value="0" Binding="{Binding ErrorCount}">
+                      <Setter TargetName="targetControl" Value="{StaticResource Tap.ErrorVisualDesaturated}"
+                              Property="Control.Template"/>
+                    </DataTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Control.Template>
+            </Control>
+            <TextBlock Text=" Errors" Margin="-1,0,4,0"/>
+            <TextBlock MinWidth="25" AutomationProperties.AutomationId="ErrorCount" Text="{Binding ErrorCount}"/>
+          </StackPanel>
+        </CheckBox>
+        <CheckBox Name="warningToggle" Visibility="{DynamicResource LogPanelDeluxeFeaturesVisibility}" Margin="8,2"
+                  ToolTip="Show 'warning' level messages in the log panel." Padding="0"
+                  AutomationProperties.AutomationId="LogPanelWarningsButton" IsChecked="{Binding ViewWarnings}">
+          <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+            <Control Margin="0,0,0,2">
+              <Control.Template>
+                <ControlTemplate TargetType="{x:Type Control}">
+                  <Control x:Name="targetControl" Template="{StaticResource Tap.WarningVisual}"/>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Value="0" Binding="{Binding WarningCount}">
+                      <Setter TargetName="targetControl" Value="{StaticResource Tap.WarningVisualDesaturated}"
+                              Property="Control.Template"/>
+                    </DataTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Control.Template>
+            </Control>
+            <TextBlock Text=" Warnings" Margin="-1,0,4,0"/>
+            <TextBlock MinWidth="25" AutomationProperties.AutomationId="WarningCount" Text="{Binding WarningCount}"/>
+          </StackPanel>
+        </CheckBox>
+        <CheckBox Name="infoToggle" Visibility="{DynamicResource LogPanelDeluxeFeaturesVisibility}" Margin="8,2"
+                  Padding="0" ToolTip="Show 'info' level messages in the log panel."
+                  AutomationProperties.AutomationId="LogPanelMessagesButton" IsChecked="{Binding ViewMessages}">
+          <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+            <Control Margin="0,0,0,2">
+              <Control.Template>
+                <ControlTemplate TargetType="{x:Type Control}">
+                  <Control x:Name="targetControl" Template="{StaticResource Tap.InformationVisual}"/>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Value="0" Binding="{Binding MessageCount}">
+                      <Setter TargetName="targetControl" Value="{StaticResource Tap.InformationVisualDesaturated}"
+                              Property="Control.Template"/>
+                    </DataTrigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Control.Template>
+            </Control>
+            <TextBlock Text=" Information" Margin="-1,0,4,0"/>
+            <TextBlock MinWidth="25" AutomationProperties.AutomationId="MessageCount" Text="{Binding MessageCount}"/>
+          </StackPanel>
+        </CheckBox>
+        <CheckBox Name="debugToggle" Visibility="{DynamicResource LogPanelDeluxeFeaturesVisibility}" Margin="8,2"
+                  Padding="0" ToolTip="Show 'debug' level messages in the log panel."
+                  AutomationProperties.AutomationId="LogPanelDebugButton" IsChecked="{Binding ViewDebug}">
+          <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+            <Control Template="{StaticResource Tap.DebugVisual}" Margin="0,0,0,2" Opacity="0.9"/>
+            <TextBlock Text=" Debug" Margin="-1,0,4,0"/>
+            <TextBlock MinWidth="25" AutomationProperties.AutomationId="DebugCount" Text="{Binding DebugCount}"/>
+          </StackPanel>
+        </CheckBox>
+      </ToolBar>
+      <ToolBar Padding="6,2,6,2" Height="{DynamicResource Tap.ToolBar.Height}" Grid.Column="1"
+               HorizontalAlignment="Right" KeyboardNavigation.TabNavigation="Continue">
+        <local:ControlDropDown x:Name="groups" VerticalOffset="1" Margin="2,0" Header="Sources"
+                               ToolTip="Filter which log sources are shown." Padding="3" VerticalAlignment="Stretch"
+                               Placement="Bottom" IsTabStop="False" Focusable="False"
+                               PlacementTarget="{Binding RelativeSource={RelativeSource Self}}"
+                               DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+          <local:ControlDropDown.DropDownContent>
+            <Border BorderThickness="4">
+              <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="groupsItems">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <VirtualizingStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <CheckBox Margin="1" Padding="3" IsChecked="{Binding State}" Content="{Binding Name}"/>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </Border>
+          </local:ControlDropDown.DropDownContent>
+        </local:ControlDropDown>
+        <local:ControlDropDown x:Name="searchGuiPopUp" ToolTip="Search for messages in the log panel (Ctrl+F)." VerticalOffset="1"
+                               Margin="2,0" Padding="3" VerticalAlignment="Stretch" Placement="Bottom" IsTabStop="False"
+                               Focusable="False" StaysOpen="True" Header="Search"
+                               AutomationProperties.AutomationId="SearchLogPanel"
+                               DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+          <local:ControlDropDown.DropDownContent>
+            <local:SearchGui x:Name="searchGui" TextChanged="a" ScrollTo="SearchGui_ScrollTo" Width="180" IsTabStop="False"/>
+          </local:ControlDropDown.DropDownContent>
+        </local:ControlDropDown>
+        <local:ControlDropDown x:Name="filterPopUp" ToolTip="Filter messages in the log panel (Ctrl+I)."
+                               VerticalAlignment="Stretch" VerticalOffset="2" Margin="1,0" Placement="Bottom" Focusable="False"
+                               IsTabStop="False" AutomationProperties.AutomationId="FilterLogPanel"
+                               DropDownEnabled="{Binding FilterActive}">
+          <local:ControlDropDown.Header>
+            <ToggleButton Style="{DynamicResource ToolBar.ToggleButton}" BorderThickness="0,0,1,0"
+                          AutomationProperties.AutomationId="FilterToggleButton" IsTabStop="False" Focusable="False"
+                          IsChecked="{Binding FilterActive}">Filter</ToggleButton>
+          </local:ControlDropDown.Header>
+          <local:ControlDropDown.DropDownContent>
+            <Border ToolTip="Only messages containing the search criteria will be shown. " BorderThickness="0">
+              <Grid x:Name="filterControlDropDownGrid">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Grid}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding ElementName=searchGuiPopUp, Path=IsDropDownOpen}" Value="True">
+                        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+                <StackPanel Orientation="Horizontal">
+                  <CheckBox IsChecked="{Binding FilterActive}"/>
+                  <TextBox Name="filterInputField" BorderThickness="1" MaxLines="1" IsTabStop="False" Width="160"
+                           FlowDirection="LeftToRight" HorizontalContentAlignment="Left" MinHeight="1"
+                           Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
+                           Foreground="{DynamicResource Control.Disabled.Foreground}" Text="inactive" Margin="1,0,5,0">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding FilterActive}" Value="True">
+                          <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </TextBlock>
+                <TextBlock Name="foundCount" MinWidth="20" HorizontalAlignment="Right" VerticalAlignment="Center"
+                           Foreground="{DynamicResource Control.Disabled.Foreground}">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                      <Setter Property="UIElement.Visibility" Value="Visible"/>
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding FilterActive}" Value="False">
+                          <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Value="{x:Static sys:String.Empty}" Binding="{Binding FilterString}">
+                          <Setter Property="UIElement.Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <TextBlock MinWidth="8" Text="{Binding FilterCount}"/>
+                  <TextBlock Margin="0,0,5,0">found</TextBlock>
+                </TextBlock>
+              </Grid>
+            </Border>
+          </local:ControlDropDown.DropDownContent>
+        </local:ControlDropDown>
+        <ToggleButton Name="autoscrollButton" Style="{DynamicResource ToolBar.ToggleButton}" IsTabStop="True"
+                      BorderThickness="0" Visibility="{DynamicResource LogPanelDeluxeFeaturesVisibility}"
+                      Content="Auto Scroll" ToolTip="Keep the latest log message in view."
+                      AutomationProperties.AutomationId="LogPanelAutoScrollButton" IsChecked="{Binding LockBottom}"/>
+      </ToolBar>
+    </Grid>
+    <Grid Row="1" TextElement.FontSize="12"
+          Visibility="{Binding IsEnabled, Converter={local:VisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="auto"/>
+      </Grid.RowDefinitions>
+      <Border Padding="2,2,2,0" Background="{DynamicResource Tap.Panel.Background}">
+        <Grid Name="viewHostGrid">
+          <StackPanel Name="viewHost" TextBlock.FontFamily="Consolas" VerticalAlignment="Stretch"/>
+        </Grid>
+      </Border>
+      <ScrollBar Name="horzbar" SmallChange="1" LargeChange="5" ViewportSize="30" Grid.Row="1"
+                 Orientation="Horizontal" VerticalAlignment="Bottom" Minimum="0" MaxHeight="100"/>
+      <ScrollBar Name="vertbar" SmallChange="1" LargeChange="5" ViewportSize="100" Grid.Column="1"
+                 Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Stretch" Minimum="0"
+                 Maximum="100"/>
+    </Grid>
+  </Grid>
+</local:LogPanel>

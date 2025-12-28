@@ -1,0 +1,61 @@
+<local:PropGridListEditorWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:ui="clr-namespace:Keysight.Ccl.Wsl.UI;assembly=Keysight.Ccl.Wsl"
+                                xmlns:local="clr-namespace:Keysight.OpenTap.Wpf"
+                                x:Name="This" Title="PropGridListEditor" Height="300" Width="400" Icon="{DynamicResource TapIcon}"
+                                WindowStartupLocation="CenterScreen" Padding="0" SizeToContent="Manual" MaxHeight="800"
+                                MinHeight="200" MinWidth="290">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/DefaultStyle.xaml"/>
+        <ResourceDictionary Source="/Keysight.OpenTap.Wpf;component/Themes/Generic.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid DataContext="{Binding ElementName=This}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="auto"/>
+    </Grid.RowDefinitions>
+    <Menu Name="menu" BorderThickness="0" Background="{DynamicResource Window.TitleBar.Static.Background}">
+      <MenuItem Header="File">
+        <MenuItem ToolTip="Import values from a file." Header="Import..."
+                  IsEnabled="{Binding MainWindow.TestPlanLocked, ElementName=this, Converter={local:InvertBooleanConverter}}">
+          <MenuItem.Icon>
+            <Rectangle Width="16" Height="16" Fill="{DynamicResource Control.Static.Foreground}">
+              <UIElement.OpacityMask>
+                <ImageBrush ImageSource="/Keysight.OpenTap.Wpf;component/../Images/doc_import.png"/>
+              </UIElement.OpacityMask>
+            </Rectangle>
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem ToolTip="Export values to a file." Header="Export..."
+                  IsEnabled="{Binding MainWindow.TestPlanLocked, ElementName=this, Converter={local:InvertBooleanConverter}}">
+          <MenuItem.Icon>
+            <Rectangle Width="16" Height="16" Fill="{DynamicResource Control.Static.Foreground}">
+              <UIElement.OpacityMask>
+                <ImageBrush ImageSource="/Keysight.OpenTap.Wpf;component/../Images/doc_export.png"/>
+              </UIElement.OpacityMask>
+            </Rectangle>
+          </MenuItem.Icon>
+        </MenuItem>
+      </MenuItem>
+    </Menu>
+    <local:PropertyDataGrid x:Name="dataGrid" OnEdited="a" ItemsChanged="dataGrid_ItemsChanged" Grid.Row="1"/>
+    <StackPanel Orientation="Horizontal" Grid.Row="2"
+                Visibility="{Binding IsEnabled, ElementName=addRow, Converter={local:VisibilityConverter}}">
+      <Button Name="addRow" Width="50" Margin="2" ToolTip="Add rows." Command="local:PropertyDataGrid.AddRow"
+              Content="+" CommandTarget="{Binding ElementName=dataGrid}"/>
+      <Button Width="50" Margin="2" ToolTip="Remove the selected row." Command="local:PropertyDataGrid.DeleteRow"
+              Content="-" CommandTarget="{Binding ElementName=dataGrid}"/>
+    </StackPanel>
+    <StackPanel x:Name="okCancelArea" Orientation="Horizontal" Grid.Row="3" Margin="0,0,0,2"
+                HorizontalAlignment="Right" Visibility="Collapsed">
+      <Button Name="OkButton" Content="OK"/>
+      <Button Name="CancelButton" Margin="2,0" Content="Cancel"/>
+    </StackPanel>
+  </Grid>
+</local:PropGridListEditorWindow>

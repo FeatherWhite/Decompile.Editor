@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: D:\Software\de4dot-cex\EditorCE\Keysight.OpenTap.Wpf-cleaned.dll-->
+  <Import Project="packages\OpenTAP.9.31.1\build\OpenTap.props" Condition="Exists('packages\OpenTAP.9.31.1\build\OpenTap.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{595B1BC5-DF12-4FB8-B03D-08F414ADC5CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Keysight.OpenTap.Wpf</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ApplicationVersion>9.17.5.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Keysight.Ccl.Wsl">
+      <HintPath>lib\Keysight.Ccl.Wsl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="OpenTap, Version=9.31.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\OpenTAP.9.31.1\lib\netstandard2.0\OpenTap.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="XamlGeneratedNamespace\GeneratedInternalTypeHelper.cs" />
+    <Compile Include="Tap\Shared\MurMurHash3.cs" />
+    <Compile Include="Tap\Shared\SubProcess.cs" />
+    <Compile Include="OpenTap\KeysightVisaDeviceDiscovery.cs" />
+    <Compile Include="OpenTap\OperatingSystem.cs" />
+    <Compile Include="OpenTap\PathUtils.cs" />
+    <Compile Include="OpenTap\ExecutorSubProcess.cs" />
+    <Compile Include="OpenTap\ExecutorClient.cs" />
+    <Compile Include="OpenTap\FileSystemHelper.cs" />
+    <Compile Include="OpenTap\ReflectionHelper.cs" />
+    <Compile Include="OpenTap\InternalMemberData.cs" />
+    <Compile Include="OpenTap\StreamUtils.cs" />
+    <Compile Include="OpenTap\Memorizer.cs" />
+    <Compile Include="OpenTap\IMemorizer`2.cs" />
+    <Compile Include="OpenTap\Memorizer`3.cs" />
+    <Compile Include="OpenTap\Memorizer`2.cs" />
+    <Compile Include="OpenTap\Utils.cs" />
+    <Compile Include="OpenTap\Sequence.cs" />
+    <Compile Include="OpenTap\Time.cs" />
+    <Compile Include="OpenTap\MemoryMappedApi.cs" />
+    <Compile Include="OpenTap\DataSerialization.cs" />
+    <Compile Include="OpenTap\TimeoutOperation.cs" />
+    <Compile Include="OpenTap\ResultStoreExtensions.cs" />
+    <Compile Include="OpenTap\ShortTimeSpan.cs" />
+    <Compile Include="OpenTap\VersionChecker.cs" />
+    <Compile Include="OpenTap\ClipboardHelper.cs" />
+    <Compile Include="OpenTap\SimpleTapAssemblyResolver.cs" />
+    <Compile Include="OpenTap\TapInitializer.cs" />
+    <Compile Include="OpenTap\WpfStartActionUtils.cs" />
+    <Compile Include="OpenTap\Cli\ArgumentsParser.cs" />
+    <Compile Include="OpenTap\Cli\Argument.cs" />
+    <Compile Include="OpenTap\Cli\ArgumentCollection.cs" />
+    <Compile Include="OpenTap\Package\Ipc\SharedState.cs" />
+    <Compile Include="Keysight\OpenTap\Build.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\CallbackChannelClient.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\ColumnState.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\GuiHelpers.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\EnumerableComparer`1.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\Icons.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\NotifyQueue.cs" />
+    <Compile Include="Keysight\OpenTap\Gui\CommunityEdition.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AnnotationDataGridViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GuiOptions.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ReadOnlyStepAnnotation.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ReadOnlyViewAnnotation.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ThreadBreakAnnotator.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\UpdateMonitor.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ICommandHandler.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\WriterAnnotation.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BindingHelper.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\WpfHelper.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\WpfErrorTraceListener.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Callback.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CallbackEventArgs.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CallbackCollection.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CallbackBindings.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CircularBuffer`1.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ComboBoxItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CommunityEditionGui.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AvailableValuesControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BoolControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\EnumToStringConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ConverterBase.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FilePathControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FilePathControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ISettingsControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MethodControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MultiSelect.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SelectableCommon.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MultiSelectProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CollectionControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\HighlightedText.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ToHighlightedTextConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ImportExportExcludeAttribute.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PasswordControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PictureControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SimpleControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\VerdictView.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AutoCompleteTextBox.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SimpleListCompletionProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IAutoCompleteProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AutoCompleteItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\EscapeUnderscoreConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AverageProgressBar.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BurgerMenu.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ComboBoxMultiSelector.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMultiItemSelector.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ContentContainer.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ControlDropDown.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\HelpLinkButton.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\InlineContent.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\InteractiveBackground.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ItemMultiSelector.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ItemsDropDown.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LicenseControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LicenseViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LicenseControlViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LicensesPanel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LogPanelFeatures.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LogPanel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TimeSlot.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\OpaqueColorConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SelectableLogGroup.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LogTextShower.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NetworkLicenseSetup.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NewStepControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AutomationIdConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NewStepDialog.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NoLicenseDlg.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NoLicenseDlg2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NoLicenseDlgViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NotOnTopPopup.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ProgressBar.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropertyDataGrid.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IsNewItemPlaceholderConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DataAnnotationControlConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ColumnHeaderItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ColumnHeaderToolTip.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropGrid.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMemberDataItemFocus.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropGridListEditor.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropGridListEditorBase.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ResourceToolTipViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ResourceToolTipConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ResourceViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\EnabledResourceViewModel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\EnabledResourceConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropGridListEditorWindow.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TableView.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\PropGridWindow.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\QuickDialog.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SearchGui.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringSearch.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SettingsDialog.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SettingsTemplateSelector.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SettingsDialogNewSetWindow.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SimpleColorPicker.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SimpleTextLine.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TextBoxWithHelp.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TwoFaceBox.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AndConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MultiConverterBase.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BooleanToInvisibilityConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ColumnDisplayNameConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CombinedListsConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StaticCrtpMarkupExtension.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\CsvConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DataAnnotationsAsStringsConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DescriptionConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DisplayNameAttributeConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FullDisplayAttributeConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\HelpLinkConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\InvertBooleanConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\AndBooleanConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MultiplyConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MultiplyConverter2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\RemoveLeftBorder.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\RightThicknessConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringFormatConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringJoinConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringTrimmingConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StepNameConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TupleConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TypeOfConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IsTypeConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\VisibilityConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\VisibilityToBoolConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringToVisibilityConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ComponentSettingToVisibility.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IsNotNullConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BiggerThanConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IconView.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IconConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DefaultStyle.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\DefaultUserInputInterface.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ExternalTestPlanParameters.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FileAssociation.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FileAssociations.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FileAssociationNative.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FtlHelper.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\BaseUi.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GenericGui.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ItemUi.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GroupUi.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MenuUi.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GridSplitter2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TapWindowState.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GuiControlsSettings.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TapSize.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GuiMenuModelFactory.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GuiMenuItems.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\OverrideReloadAttribute.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ViewPreset.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\EditorSettings.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IconNames.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ILogOrigin.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FileLogOrigin.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ILogAnalyzer.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMenuItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMenuItemIcon.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMenuItemIcon2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMenuItemVisibility.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IMenuItemShortcut.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IPromotedMenuItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IInitializedMenuItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ToolProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\IndeterminateProgress.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ITapDockContext.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ITapDockContext2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GuiContext.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ITapDockPanel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ITapDockMultiPanel.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ITapDockPanel2.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ItemDescription.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\LogMessage.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NativeMouseCapture.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NotifyingResultListener.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\WindowUtility.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\RelayCommand.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\RenderDispatch.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\RobotoFontCache.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Selectable.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GridSettingsControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\GridSettingsControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ListSettingsControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ListSettingsControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NormalSettingsControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\NormalSettingsControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\SettingsMenuItem.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ComponentSettingsNameConverter.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\StringToLogControl.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\HyperlinkText.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\FractionMatcher.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TapSettings.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TestPlanStepFinder.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\TestPlanReferenceTypeData.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Alias.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\MixedColorBrush.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\UnhandledExceptionHandler.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\UpdateEventArgs.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\VisualStudioHelper.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\WeakEventHandler.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\AllowsTransparencySkinFragment.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\DarkThemeSkin.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\LightThemeSkin.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\TapCaranu.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\TapSkins.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Themes\Generic.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\Properties\Resources.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ControlProviders\EnabledControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ControlProviders\PasswordControlProvider.cs" />
+    <Compile Include="Keysight\OpenTap\Wpf\ControlProviders\VerdictControlProvider.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gui.ico" />
+    <Resource Include="images\cancel.png" />
+    <Resource Include="images\doc_delete.png" />
+    <Resource Include="images\doc_export.png" />
+    <Resource Include="images\doc_export32.png" />
+    <Resource Include="images\doc_import.png" />
+    <Resource Include="images\doc_new.png" />
+    <Resource Include="images\gui.png" />
+    <Resource Include="images\icons\packagemanager.ico" />
+    <Resource Include="images\icons\resultsviewer.ico" />
+    <Resource Include="images\icons\runexplorer.ico" />
+    <Resource Include="images\icons\tap.ico" />
+    <Resource Include="images\icons\timinganalyzer.ico" />
+    <Resource Include="images\keysightapplicationicontap64.png" />
+    <Resource Include="images\search.png" />
+    <Resource Include="images\tapappicon.ico" />
+    <Resource Include="taplighticon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Keysight\OpenTap\Wpf\Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="controlproviders\filepathcontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controlproviders\multiselect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controlproviders\passwordcontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controlproviders\verdictview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\autocompletetextbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\helplinkbutton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\interactivebackground.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\licensecontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\logpanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\networklicensesetup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\newstepcontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\newstepdialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\nolicensedlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\nolicensedlg2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\progressbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\propgridlisteditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\propgridlisteditorwindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\propgridwindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\searchgui.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\settingsdialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\settingsdialognewsetwindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\simplecolorpicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="defaultstyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="settingscontrolproviders\gridsettingscontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="settingscontrolproviders\listsettingscontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="settingscontrolproviders\normalsettingscontrol.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\allowstransparencyskinfragment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\darkthemeskin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\lightthemeskin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\tapcaranu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\OpenTAP.9.31.1\build\OpenTap.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTAP.9.31.1\build\OpenTap.props'))" />
+    <Error Condition="!Exists('packages\OpenTAP.9.31.1\build\OpenTap.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\OpenTAP.9.31.1\build\OpenTap.targets'))" />
+  </Target>
+  <Import Project="packages\OpenTAP.9.31.1\build\OpenTap.targets" Condition="Exists('packages\OpenTAP.9.31.1\build\OpenTap.targets')" />
+</Project>
